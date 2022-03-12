@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [
+        ""
+      ],
+      "stopAtEntry": true,
+      "cwd": "/Users/zhuhaoze/Desktop/南开大学/网络安全技术/实验一",
+      "environment": [],
+      "program": "/Users/zhuhaoze/Desktop/南开大学/网络安全技术/实验一/build/Debug/outDebug",
+      "internalConsoleOptions": "openOnSessionStart",
+      "MIMode": "gdb",
+      "externalConsole": false
+    }
+  ]
+}

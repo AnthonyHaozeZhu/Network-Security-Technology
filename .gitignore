@@ -1,2 +1,5 @@
 *.rar
 dyh
+CMakeCache.txt
+CMakeFile
+*.cmake
