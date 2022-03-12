@@ -8,5 +8,8 @@ aux_source_directory (src SRC_LIST)
 
 include_directories (include)
 
-add_executable (main ${SRC_LIST})
+# add_executable (main ${SRC_LIST})
+
+add_executable(main ${PROJECT_SOURCE_DIR}/src/main.cpp)
+add_executable(test1 ${PROJECT_SOURCE_DIR}/src/test1.cpp)
 
