@@ -1,5 +1,5 @@
 *.rar
 dyh
 CMakeCache.txt
-CMakeFile
+CMakeFiles
 *.cmake
