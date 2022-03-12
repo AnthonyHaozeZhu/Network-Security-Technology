@@ -11,6 +11,6 @@ include_directories (include)
 # add_executable (main ${SRC_LIST})
 
 add_executable(client ${PROJECT_SOURCE_DIR}/src/client.cpp ${PROJECT_SOURCE_DIR}/src/DES.cpp)
-# add_executable(server ${PROJECT_SOURCE_DIR}/src/server.cpp ${PROJECT_SOURCE_DIR}/src/DES.cpp)
+add_executable(server ${PROJECT_SOURCE_DIR}/src/server.cpp ${PROJECT_SOURCE_DIR}/src/DES.cpp)
 
 
