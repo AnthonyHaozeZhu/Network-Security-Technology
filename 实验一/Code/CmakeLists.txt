@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.0)
 
 project (demo)
 
@@ -10,6 +10,7 @@ include_directories (include)
 
 # add_executable (main ${SRC_LIST})
 
-add_executable(main ${PROJECT_SOURCE_DIR}/src/main.cpp)
-add_executable(test1 ${PROJECT_SOURCE_DIR}/src/test1.cpp)
+add_executable(client ${PROJECT_SOURCE_DIR}/src/client.cpp ${PROJECT_SOURCE_DIR}/src/DES.cpp)
+# add_executable(server ${PROJECT_SOURCE_DIR}/src/server.cpp ${PROJECT_SOURCE_DIR}/src/DES.cpp)
+
 
