@@ -1,4 +1,4 @@
-# Install script for directory: /Users/zhuhaoze/Desktop/南开大学/网络安全技术/实验一/code
+# Install script for directory: /Users/zhuhaoze/Desktop/南开大学/网络安全技术/实验一/Code
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/zhuhaoze/Desktop/南开大学/网络安全技术/实验一/code/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/zhuhaoze/Desktop/南开大学/网络安全技术/实验一/Code/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
