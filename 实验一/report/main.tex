@@ -389,9 +389,89 @@ INT32 CDesOperate::Encry(char *pPlaintext, int nPlaintextLength, char *pCipherBu
     return SUCCESS;
 }
   \end{lstlisting}
-  
-  
+  \item 基于tcp的客户端工作流程主要是先利用socket建立流式套接字，返回套接字号，然后利用connnet函数，发送请求将套接字s与服务器连接，接着利用send()/recv(),在ns上完成与服务器的加密数据交互，最后close()关闭套接字，其主要代码如下
+  \begin{lstlisting}[language = c++]
+std::cout << "Please input the server address:" << std::endl;
+char strIpAddr[16];
+std::cin >> strIpAddr;
+int nConnectSocket, nLength;
+struct sockaddr_in sDestAddr;
+if((nConnectSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    perror("Socket");
+    exit(errno);
+}
+sDestAddr.sin_family = AF_INET;
+sDestAddr.sin_port = htons(6060);
+sDestAddr.sin_addr.s_addr = inet_addr(strIpAddr);
+if(connect(nConnectSocket, (struct sockaddr*)&sDestAddr, sizeof(sDestAddr)) != 0) {
+    perror("Connect");
+    exit(errno);
+}
+else {
+    std::cout << "Connect Succcess!" << std::endl;
+    std::cout << "Begin to chat.." << std::endl;
+    char *temp = "benbenmi";
+    SecretChat(nConnectSocket, strIpAddr, temp);
+}
+close(nConnectSocket);
+  \end{lstlisting}
+  \item 基于tcp的服务端过程是首先利用socket()建立流式套接字，返回套接字号，通过bind()，将套接字与本地地址绑定，开启Listen()，服务器开始监听准备接受连接，服务器进入阻塞状态，循环等待客户端连接；建立连接后，accept()返回新的套接字号ns，send()/recv()，在ns上完成与客户端的加密数据交互，close()关闭套接字ns，其主要代码如下
+  \begin{lstlisting}[language = c++]
+std::cout << "Listening..." << std::endl;
+int nListenSocket, nAcceptSocket;
+socklen_t  nLength;
+struct sockaddr_in sLocalAddr, sRemoteAddr;
+bzero(&sLocalAddr, sizeof(sLocalAddr));
+sLocalAddr.sin_family = PF_INET;
+sLocalAddr.sin_port = htons(6060);
+sLocalAddr.sin_addr.s_addr = INADDR_ANY;
+if ((nListenSocket = socket(PF_INET, SOCK_STREAM, 0)) == -1)
+{
+    perror("socket");
+    exit(1);
+}
+
+if(bind(nListenSocket, (struct sockaddr*) &sLocalAddr, sizeof(struct sockaddr)) == -1) {
+    perror("bind");
+    exit(1);
+}
+
+if(listen(nListenSocket, 5) == -1) {
+    perror("listen");
+    exit(1);
+}
+
+nAcceptSocket = accept(nListenSocket, (struct sockaddr*) &sRemoteAddr, &nLength);
+close(nListenSocket);
+std::cout << "server: got connection from " << inet_ntoa(sRemoteAddr.sin_addr) << ", port " << ntohs(sRemoteAddr.sin_port) << ", socket " << nAcceptSocket << std::endl;
+SecretChat(nAcceptSocket, inet_ntoa(sRemoteAddr.sin_addr), "benbenmi");
+close(nAcceptSocket);
+  \end{lstlisting}
 \end{itemize}
+\subsubsection{实验结果}
+行代码程序，打开服务端进行监听
+\begin{center}
+  \includegraphics[scale = 0.5]{1}
+\end{center}
+客户端上线，连接成功
+\begin{center}
+  \includegraphics[scale = 0.5]{2}
+\end{center}
+客户端向服务端发送消息并成功收到
+\begin{center}
+  \includegraphics[scale = 0.5]{3}
+  \includegraphics[scale = 0.5]{4}
+\end{center}
+服务端向客户端发送消息并成功收到
+\begin{center}
+  \includegraphics[scale = 0.5]{5}
+  \includegraphics[scale = 0.5]{6}
+\end{center}
+退出程序
+\begin{center}
+  \includegraphics[scale = 0.5]{7}
+  \includegraphics[scale = 0.5]{8}
+\end{center}
 
 \section{实验遇到的问题及其解决方法}
 
