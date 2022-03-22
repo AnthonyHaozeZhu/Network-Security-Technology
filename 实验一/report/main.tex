@@ -474,137 +474,39 @@ close(nAcceptSocket);
 \end{center}
 
 \section{实验遇到的问题及其解决方法}
+首先是编译的问题，由于这次没有使用Xcode这种集成终端，而是选择完全在iTerm 2和vim上编写代码，所以在编译时也遇到了一定的问题，如何将多个文件编译成一个可执行文件，故学习使用了Cmake软件，由于项目架构如下
+\begin{lstlisting}
+├── include
+│   ├── DES.h
+│   └── head.h
+└── src
+    ├── DES.cpp
+    └── main.cpp
+\end{lstlisting}
+故编写CmakeList.txt文件如下
+\begin{lstlisting}
+  cmake_minimum_required (VERSION 3.0)
+
+  project (demo)
+  
+  set (EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+  
+  aux_source_directory (src SRC_LIST)
+  
+  include_directories (include)
+  
+  # add_executable (main ${SRC_LIST})
+  
+  add_executable(main ${PROJECT_SOURCE_DIR}/src/main.cpp ${PROJECT_SOURCE_DIR}/src/DES.cpp)  
+\end{lstlisting}
+成功自动生成了Makefile，通过make命令可以直接编译，make clean可以删除可执行文件，编译问题得到解决。
+
+\par 其次是在传输时出现了乱码，这种问题在计算机网络课程的实验上也出现过，当时是在手动实现滑动窗口时出现过，但这次是直接使用TCP程序，所以传输不可能出问题，所以一定是出现在了加密解密算法之中。经过仔细的debug，最终发现由于在单轮迭代中对左右两部分进行了交换，但实际上最后一轮是不需要交换的，所以在完成16轮迭代后应该再交换回来。这个问题导致了乱码，发现之后进行了修改，最终实验成功。
+
 
 \section{实验结论}
 
+经过本次实验我了解了DES算法，DES 加密解密算法比较简单，实验指导书上给的也比较详细，按照指导书上的步骤很快便实现了。 但是在目前学习的阶段，是第一次在非底层的实验上与比特位打交道，也是在区块链学习后第一次系统的接触密码学，并对这一领域有了更好的认识和了解。
 
-
-
-
-
-
-
-\section{概述}
-%——————————————————————————————————————
-\subsection{第一节}
-如图\ref{fig:1}所示
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.3]{NKU.png}
-    \caption{Caption}
-    \label{fig:1}
-\end{figure}
-
-表
-\begin{table}[!htbp]
-  \centering
-  \begin{tabular}{ccccccccccc}
-  \toprule  
-  N/n$\backslash$Algo& naive-conv& naive-pool& omp-conv& omp-pool\\
-  \midrule
-  64/2& 0.0167& 0.01255& 0.04142& 0.03799\\
-  64/4& 0.03599&0.0394& 0.0458& 0.0421\\
-  \bottomrule
-  \end{tabular}
-  \caption{性能测试结果(4线程)(单位:ms)}
-\end{table}
-
-带单元格表格
-\begin{table}[!htbp]
-  \centering
-  \begin{tabular}{|c|c|c|c|c|c|c|}
-  \hline
-  \multicolumn{2}{|c|}{ \multirow{2}*{$Cost$} }& \multicolumn{5}{c|}{To}\\
-  \cline{3-7}
-  \multicolumn{2}{|c|}{}&$A$&$B$&$C$&$D$&$E$\\
-  \hline
-  \multirow{3}*{From}&$B$&7&0&1&3&8\\
-  \cline{2-7}
-  &$C$&8&1&0&2&7\\
-  \cline{2-7}
-  &$D$&8&3&2&0&5\\
-  \hline
-  \end{tabular}
-  \caption{结点C距离向量表(无毒性逆转)}
-\end{table}
-
-%——————————————————————————————————————
-\subsection{第二节}
-伪代码
-
-\begin{breakablealgorithm} 
-  \caption{初始化obj文件信息——对应MeshSimplify类中readfile函数,Face类calMatrix函数} 
-  \begin{algorithmic}[1] %每行显示行号  
-      \Require obj文件,顶点、边、面列表
-      \Ensure 是否读取成功
-      \Function {calMatrix}{$Face$}  
-              \State $normal \gets e1×e2$  
-              \State $normal \gets normal/normal.length$
-              \State $temp[] \gets {normal.x, normal.y, normal.z, normal· Face.v1}$
-              \State $Matrix[i][j]=temp[i] * temp[j]$ 
-              \State \Return{$Matrix$}  
-      \EndFunction
-      \State 根据obj的v和f区分点面信息,读取并加入列表
-      \State $scale \gets $记录点坐标中距离原点最远的分量,以便后续OpenGL进行显示
-      \State $ori \gets $记录中心点,便于OpenGL显示在中心位置,避免有的obj偏移原点较多
-      \State 根据三角面片信息,计算一个面的三条边
-      \State 计算每个面的矩阵$\gets calMatrix$
-      \State 将每个面的矩阵加到各点,由点维护\\
-      \Return True
-  \end{algorithmic}  
-\end{breakablealgorithm}
-
-代码
-\begin{lstlisting}[title=逐列访问平凡算法,frame=trbl,language={C++}]
-  void ord()   
-  {
-      double head,tail,freq,head1,tail1,timess=0; // timers
-      init(N);
-      QueryPerformanceFrequency((LARGE_INTEGER *)&freq );
-      QueryPerformanceCounter((LARGE_INTEGER *)&head);
-      for (int i=0; i<NN; i++)
-          for (int j=0; j<NN; j++)
-              col_sum[i] += (b[j][i]*a[j]);
-      QueryPerformanceCounter ((LARGE_INTEGER *)& tail) ;
-      cout << "\nordCol" <<(tail-head)*1000.0 / freq<< "ms" << endl;
-  }
-\end{lstlisting}
-
-
-%——————————————————————————————————————
-\subsection{第三节}
-
-参考文献\cite{adams1995hitchhiker}\cite{shin2016deep}
-    
-多行公式
-\begin{align}
-  a+b = a + b \\
-  \frac{a+b}{a-b}
-\end{align}
-
-行内公式：$\sum^N_{i=1}$
-
-\textbf{超链接}  \href{http://youtube.com/}{YouTube}
-
-带标号枚举
-\begin{enumerate}
-  \item 1
-  \item 2
-\end{enumerate}
-
-不带标号枚举
-\begin{itemize}
-  \item 1
-  \item 2
-\end{itemize}
-
-\xiaosi{切换字体大小}
-
-%----------------------------------------------------------------
-\section{总结}
-
-%----------------------------------------------------------------
-\newpage
-\bibliographystyle{plain}
-\bibliography{references} 
+\par 这次实验也是第一次在Linux系统上进行socket编程，与Windows平台上区别不大，但是还是有略微的差别，但考虑到很多服务器也是基于Linux的，所以这一部分的学习实用性很强。其次，这是第一次在Linux系统上进行非集成终端或框架使用的编程，学会了使用Cmake工具生成Makefile，这对以后的学习有着极大的帮助。
 \end{document}
