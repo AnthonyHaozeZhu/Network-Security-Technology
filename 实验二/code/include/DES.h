@@ -2,7 +2,6 @@
 #define DES_H
 
 #include <iostream>
-#include "DES.h"
 #define SUCCESS 1
 #define DESENCRY 0
 
