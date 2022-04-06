@@ -2,7 +2,7 @@
  * @Author: AnthonyZhu
  * @Date: 2022-04-06 17:58:00
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-04-06 19:50:25
+ * @LastEditTime: 2022-04-07 00:43:26
  * @FilePath: /实验二/code/include/RSA.h
  * @Description: 
  * 
@@ -27,30 +27,32 @@ struct RSAKeyPair {
 };
 
 struct RsaParam{
-    unsigned long long e;
-    unsigned long long n;
-    unsigned long long d;
-    unsigned long long f;
-    unsigned long long p;
-    unsigned long long q;
-    unsigned long long s;
+    __int64 e;
+    __int64 n;
+    __int64 d;
+    __int64 f;
+    __int64 p;
+    __int64 q;
+    __int64 s;
 };
 
 
 class CRsaOperate {
-private:
-    inline __int64 MulMod(__int64 a, unsigned long b, unsigned long n);
-    __int64 PowMod(__int64 base, __int64 pow, __int64 n);
-    long RabinMillerKnl(__int64 &n);
-    long RabinMiller(__int64 &n, long loop=100);
-    __int64 RandPrime(char bit);
-    __int64 Gcd(__int64 &p, __int64 &q);
-    __int64 Euclid(__int64 e, __int64 t_n);
-    __int64 Encry(unsigned short nScore, PublicKey &cKey);
-    unsigned short Decry(__int64 nScore);
 public:
+    RsaParam m_cParament;  
+    CRsaOperate(); 
+    static inline __int64 MulMod(__int64 a, unsigned long b, unsigned long n);
+    static __int64 PowMod(__int64 base, __int64 pow, __int64 n);
+    static long RabinMillerKnl(__int64 &n);
+    static long RabinMiller(__int64 &n, long loop);
+    static __int64 RandPrime(char bit);
+    static __int64 Gcd(__int64 &p, __int64 &q);
+    static __int64 Euclid(__int64 e, __int64 t_n);
+    static __int64 Encry(unsigned short nScore, PublicKey &cKey);
+    unsigned short Decry(__int64 nScore);
     PublicKey GetPublicKey();
-    RsaParam RsaGetParam();
 };
+
+RsaParam RsaGetParam();
 
 #endif

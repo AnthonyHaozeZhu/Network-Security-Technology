@@ -2,7 +2,7 @@
  * @Author: AnthonyZhu
  * @Date: 2022-04-06 19:18:21
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-04-06 19:59:52
+ * @LastEditTime: 2022-04-07 00:39:55
  * @FilePath: /实验二/code/src/RSA.cpp
  * @Description: 
  * 
@@ -70,7 +70,8 @@ __int64 CRsaOperate::RandPrime(char bit) {
         base = (unsigned long)1 << (bit - 1);
         base += rand() % (base);
         base |= 1;
-    }while(!RabinMiller(base, 30));
+    }
+    while(!RabinMiller(base, 30));
     return base;
 }
 
@@ -133,19 +134,19 @@ PublicKey CRsaOperate::GetPublicKey() {
 }
 
 
-RsaParam CRsaOperate::RsaGetParam() {
+RsaParam RsaGetParam() {
     RsaParam Rsa = { 0 };
     unsigned long long t;
-    Rsa.p = RandPrime(16);
-    Rsa.q = RandPrime(16);
+    Rsa.p = CRsaOperate::RandPrime(16);
+    Rsa.q = CRsaOperate::RandPrime(16);
     Rsa.n = Rsa.p * Rsa.q;
     Rsa.f = (Rsa.p - 1) * (Rsa.q - 1);
-    do{
+    do {
         Rsa.e = rand() % Rsa.f;
         Rsa.e |= 1;
     }
-    while(Gcd(Rsa.e, Rsa.f) != 1);
-    Rsa.d = Euclid(Rsa.e, Rsa.f);
+    while(CRsaOperate::Gcd(Rsa.e, Rsa.f) != 1);
+    Rsa.d = CRsaOperate::Euclid(Rsa.e, Rsa.f);
     Rsa.s = 0;
     t = Rsa.n >> 1;
     while(t) {
@@ -153,4 +154,8 @@ RsaParam CRsaOperate::RsaGetParam() {
         t >>= 1;
     }
     return Rsa;
+}
+
+CRsaOperate::CRsaOperate() {
+    this -> m_cParament = RsaGetParam();
 }
