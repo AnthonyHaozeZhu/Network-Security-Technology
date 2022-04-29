@@ -14,7 +14,6 @@
 inline __int64 CRsaOperate::MulMod(__int64 a, unsigned long b, unsigned long n) {
     return (a % n) * (b % n) % n;
 }
-
 __int64 CRsaOperate::PowMod(__int64 base, __int64 pow, __int64 n) {
     __int64 a = base, b = pow, c = 1;
     while(b){

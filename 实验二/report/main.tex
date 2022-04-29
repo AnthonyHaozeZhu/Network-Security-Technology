@@ -1,0 +1,551 @@
+% -*- coding: utf-8 -*-
+%-------------------------designed by zcf--------------
+\documentclass[UTF8,a4paper,10pt]{ctexart}
+\usepackage[left=3.17cm, right=3.17cm, top=2.74cm, bottom=2.74cm]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx,subfig}
+\usepackage{float}
+\usepackage{cite}
+\usepackage{caption}
+\usepackage{enumerate}
+\usepackage{booktabs} %表格
+\usepackage{multirow}
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}  %表格强制换行
+%-------------------------字体设置--------------
+\usepackage{times} 
+\newcommand{\yihao}{\fontsize{26pt}{36pt}\selectfont}           % 一号, 1.4 倍行距
+\newcommand{\erhao}{\fontsize{22pt}{28pt}\selectfont}          % 二号, 1.25倍行距
+\newcommand{\xiaoer}{\fontsize{18pt}{18pt}\selectfont}          % 小二, 单倍行距
+\newcommand{\sanhao}{\fontsize{16pt}{24pt}\selectfont}  %三号字
+\newcommand{\xiaosan}{\fontsize{15pt}{22pt}\selectfont}        % 小三, 1.5倍行距
+\newcommand{\sihao}{\fontsize{14pt}{21pt}\selectfont}            % 四号, 1.5 倍行距
+\newcommand{\banxiaosi}{\fontsize{13pt}{19.5pt}\selectfont}    % 半小四, 1.5倍行距
+\newcommand{\xiaosi}{\fontsize{12pt}{18pt}\selectfont}            % 小四, 1.5倍行距
+\newcommand{\dawuhao}{\fontsize{11pt}{11pt}\selectfont}       % 大五号, 单倍行距
+\newcommand{\wuhao}{\fontsize{10.5pt}{15.75pt}\selectfont}    % 五号, 单倍行距
+%-------------------------章节名----------------
+\usepackage{ctexcap} 
+\CTEXsetup[name={,、},number={ \chinese{section}}]{section}
+\CTEXsetup[name={（,）},number={\chinese{subsection}}]{subsection}
+\CTEXsetup[name={,.},number={\arabic{subsubsection}}]{subsubsection}
+%-------------------------页眉页脚--------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{\kaishu \leftmark}
+% \chead{}
+\rhead{\kaishu 网络安全技术实验报告}%加粗\bfseries 
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0.1pt}  
+\renewcommand{\footrulewidth}{0pt}%去掉横线
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}%标题横线
+\newcommand{\HRulegrossa}{\rule{\linewidth}{1.2mm}}
+%-----------------------伪代码------------------
+\usepackage{algorithm}  
+\usepackage{algorithmicx}  
+\usepackage{algpseudocode}  
+\floatname{algorithm}{Algorithm}  
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}  
+\renewcommand{\algorithmicensure}{\textbf{Output:}} 
+\usepackage{lipsum}  
+\makeatletter
+\newenvironment{breakablealgorithm}
+  {% \begin{breakablealgorithm}
+  \begin{center}
+     \refstepcounter{algorithm}% New algorithm
+     \hrule height.8pt depth0pt \kern2pt% \@fs@pre for \@fs@ruled
+     \renewcommand{\caption}[2][\relax]{% Make a new \caption
+      {\raggedright\textbf{\ALG@name~\thealgorithm} ##2\par}%
+      \ifx\relax##1\relax % #1 is \relax
+         \addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##2}%
+      \else % #1 is not \relax
+         \addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##1}%
+      \fi
+      \kern2pt\hrule\kern2pt
+     }
+  }{% \end{breakablealgorithm}
+     \kern2pt\hrule\relax% \@fs@post for \@fs@ruled
+  \end{center}
+  }
+\makeatother
+%------------------------代码-------------------
+\usepackage{xcolor} 
+\usepackage{listings} 
+\usepackage{fontspec}
+\newfontfamily\menlo{Menlo}
+\setmonofont[Mapping={}]{Monaco} 
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{ %
+backgroundcolor=\color{white},   % choose the background color
+basicstyle=\footnotesize\ttfamily,        % size of fonts used for the code
+columns=fullflexible,
+breaklines=true,                 % automatic line breaking only at whitespace
+captionpos=b,                    % sets the caption-position to bottom
+tabsize=4,
+commentstyle=\color{mygreen},    % comment style
+escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+keywordstyle=\color{blue},       % keyword style
+stringstyle=\color{mymauve}\ttfamily,     % string literal style
+frame=single,
+rulesepcolor=\color{red!20!green!20!blue!20},
+numbers=left,
+ numberstyle=\tiny\menlo
+% identifierstyle=\color{red},
+% language=c++,
+}
+%------------超链接----------
+\usepackage[colorlinks,linkcolor=black,anchorcolor=blue]{hyperref}
+%------------------------TODO-------------------
+\usepackage{enumitem,amssymb}
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+% for check symbol 
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}\hspace{-2.5pt}}
+\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+%------------------------水印-------------------
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{eso-pic}
+
+\newcommand{\watermark}[3]{\AddToShipoutPictureBG{
+\parbox[b][\paperheight]{\paperwidth}{
+\vfill%
+\centering%
+\tikz[remember picture, overlay]%
+  \node [rotate = #1, scale = #2] at (current page.center)%
+    {\textcolor{gray!80!cyan!30!magenta!30}{#3}};
+\vfill}}}
+
+
+
+%———————————————————————————————————————————正文———————————————————————————————————————————————
+%----------------------------------------------
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+    \includegraphics[width=0.8\textwidth]{NKU.png}\\[1cm]    
+    \textsc{\Huge \kaishu{\textbf{南\ \ \ \ \ \ 开\ \ \ \ \ \ 大\ \ \ \ \ \ 学}} }\\[0.9cm]
+    \textsc{\huge \kaishu{\textbf{计\ \ 算\ \ 机\ \ 学\ \ 院}}}\\[0.5cm]
+    \textsc{\Large \textbf{网络安全技术作业报告}}\\[0.8cm]
+    \HRule \\[0.9cm]
+    { \LARGE \bfseries 基于RSA算法自动分配密钥的加密聊天程序}\\[0.4cm]
+    \HRule \\[2.0cm]
+    \centering
+    \textsc{\LARGE \kaishu{朱浩泽\ 1911530}}\\[0.5cm]
+    \textsc{\LARGE \kaishu{年级\ :\ 2019级}}\\[0.5cm]
+    \textsc{\LARGE \kaishu{专业\ :\ 计算机科学与技术}}\\[0.5cm]
+    \textsc{\LARGE \kaishu{班级\ :\ 计算机科学与技术2班}}\\[0.5cm]
+    \vfill
+    {\Large \today}
+    \end{center}
+\end{titlepage}
+% -------------摘------要--------------
+\newpage
+\thispagestyle{empty}
+% ----------------------------------------------------------------
+\tableofcontents
+% ----------------------------------------------------------------
+\newpage
+\watermark{60}{10}{NKU}
+\setcounter{page}{1}
+\section{实验目的}
+\begin{enumerate}
+  \item 加深对RSA 算法基本工作原理的理解。
+  \item 掌握基于RSA 算法的保密通信系统的基本设计方法。
+  \item 掌握在Linux 操作系统实现RSA 算法的基本编程方法。
+  \item 了解Linux 操作系统异步IO 接口的基本工作原理。
+\end{enumerate}
+\section{实验内容}
+\begin{enumerate}
+  \item 要求在Linux 操作系统中完成基于RSA 算法的自动分配密钥加密聊天程序的编写。
+  \item 应用程序保持第三章“基于DES 加密的TCP 通信”中示例程序的全部功能，并在此基础上进行扩展，实现密钥自动生成，并基于RSA 算法进行密钥共享。
+  \item 要求程序实现全双工通信，并且加密过程对用户完全透明。
+\end{enumerate}
+\section{实验步骤及实验结果}
+\subsection{实验环境}
+\noindent macOS 12.3(基于 unix), C++11, Cmake\
+\subsection{代码结构}
+\noindent CDesOperate.h CDesOperate.cpp 封装了DES 加密解密的CDesOperate 类。\\
+CRsaOperate.h CRsaOperate.cpp 封装了RSA 加密解密的CRsaOperate 类。\\
+TCP.h TCP.cpp 服务器和客户端的处理函数。\\
+main.cpp 主程序。\\
+\begin{center}
+  \includegraphics*[]{1}
+  \includegraphics*[]{2}
+  \includegraphics*[]{3}
+  \includegraphics*[]{4}
+\end{center}
+
+\subsection{代码实现}
+\subsubsection{封装DES 加密解密算法的类}
+CDesOperate 类较实验一没有发生变化，后文对此类不加赘述。
+\subsubsection{封装RSA 加密解密算法的类，并检验其正确性。}
+建立两个数据结构，存储 RSA 公私钥对的全部数据
+\begin{lstlisting}[language = c++]
+struct PublicKey {
+    __int64 nE;
+    __int64 nN;
+};
+
+struct RSAKeyPair {
+    __int64 publicKey_e;
+    __int64 secretKey_d;
+    __int64 n;
+};
+\end{lstlisting}
+m\_cParament，该变量是存储RSA 的基本参数，定义如下：
+\begin{lstlisting}[language = C++]
+struct RsaParam{
+    __int64 e;
+    __int64 n;
+    __int64 d;
+    __int64 f;
+    __int64 p;
+    __int64 q;
+    __int64 s;
+};  
+\end{lstlisting}
+编写RSA.h 和RSA.cpp 两个文件，在RSA.h 文件中进行函数与类的声明，
+在RSA.cpp 文件中进行定义。\\
+CRsaOperate 类中的内容
+\begin{itemize}
+  \item MulMod()\\ 
+  模乘运算即计算两个数的乘积然后取模
+  \item PowMod()\\
+  快速模幂运算
+  \item MillerRabin()\\
+  MillerRabin 素数测试算法
+  \item RandomPrime() \\ 
+  质数生成函数RandomPrime
+  \item Gcd()\\ 
+  求最大公约数
+  \item Euler()\\
+  欧拉函数：返回小于n 且与n 互质的正整数个数
+  \item GetPublicKey()\\
+  获取公钥
+  \item NewRsaKeyPair()\\
+  生成RSA 公私钥对
+  \item Encry()\\
+  加密函数
+  \item Decry()\\
+  解密函数
+\end{itemize}
+
+\begin{lstlisting}[language = c++]
+class CRsaOperate {
+public:
+    RsaParam m_cParament;  
+    CRsaOperate(); 
+    static inline __int64 MulMod(__int64 a, unsigned long b, unsigned long n);
+    static __int64 PowMod(__int64 base, __int64 pow, __int64 n);
+    static long RabinMillerKnl(__int64 &n);
+    static long RabinMiller(__int64 &n, long loop);
+    static __int64 RandPrime(char bit);
+    static __int64 Gcd(__int64 &p, __int64 &q);
+    static __int64 Euclid(__int64 e, __int64 t_n);
+    static __int64 Encry(unsigned short nScore, PublicKey &cKey);
+    unsigned short Decry(__int64 nScore);
+    PublicKey GetPublicKey();
+};
+\end{lstlisting}
+
+\begin{itemize}
+  \item 模乘运算\\ 
+  模乘运算即计算两个数的乘积然后取模
+  \begin{lstlisting}[language = c++]
+inline __int64 CRsaOperate::MulMod(__int64 a, unsigned long b, unsigned long n) {
+    return (a % n) * (b % n) % n;
+}
+\end{lstlisting}
+  \item 快速模幂运算\\
+  利用快速幂算法进行快速模幂计算，可以在保证数据准确的情况下，快速得到高次幂模运算后的结果。
+  \begin{lstlisting}[language = c++]
+__int64 CRsaOperate::PowMod(__int64 base, __int64 pow, __int64 n) {
+    __int64 a = base, b = pow, c = 1;
+    while(b){
+        while(!(b & 1)){
+            b >>= 1;
+            a = MulMod(a, a, n);
+        }
+        b--;
+        c = MulMod(a, c, n);
+    }
+    return c;
+}
+  \end{lstlisting}
+  \item MillerRabin 素数测试算法\\
+  概率算法：MillerRabin 素数测试算法\\
+  缺省参数loop 为默认重复测试参数为100\\
+  Rabin-Miller 算法具有较低的时间复杂度，但是无法保证所得结果一定是正确的，而是以一定的概率得到一个素数，所以需要设定一个安全参数来保证Rabin-Miller 算法以高概率得到一个素数。
+  \begin{lstlisting}[language = c++]
+long CRsaOperate::RabinMillerKnl(__int64 &n) {
+    __int64 a, q, k, v;
+    q = n - 1;
+    k = 0;
+    while(!(q & 1)) {
+        ++k;
+        q >>= 1;
+    }
+    a = 2 + rand() % (n - 3);
+    v = PowMod(a, q, n);
+    if(v == 1) {
+        return 1;
+    }
+    for(int j = 0; j < k; j++) {
+        unsigned int z = 1;
+        for(int w = 0; w < j; w++) {
+            z *= 2;
+        }
+        if(PowMod(a, z*q, n) == n - 1)
+            return 1;
+    }
+    return 0;
+}
+
+
+long CRsaOperate::RabinMiller(__int64 &n, long loop=100) {
+    for(long i = 0; i < loop ; i++){
+        if(!RabinMillerKnl(n)){
+            return 0;
+        }
+    }
+    return 1;
+}
+  \end{lstlisting}
+  \item 质数生成函数RandomPrime\\ 
+  保证最高位是1，再加上一个随机数，保证最低位是1，即保证是奇数，进行拉宾－米勒测试30次，全部通过认为是质数
+  \begin{lstlisting}[language = C++]
+__int64 CRsaOperate::RandPrime(char bit) {
+    __int64 base;
+    do{
+        base = (unsigned long)1 << (bit - 1);
+        base += rand() % (base);
+        base |= 1;
+    }
+    while(!RabinMiller(base, 30));
+    return base;
+}
+  \end{lstlisting}
+  \item 求最大公约数\\
+  两数相等,最大公约数就是本身；辗转相除法,gcd(a,b)=gcd(b,a-qb)
+  \begin{lstlisting}[language = C++]
+__int64 CRsaOperate::Gcd(__int64 &p, __int64 &q) {
+    unsigned long long a = p > q ? p : q;
+    unsigned long long b = p < q ? p : q;
+    unsigned long long t;
+    if( p == q ){
+        return p;
+    }else{
+        while(b){
+            a = a % b;
+            t = a;
+            a = b;
+            b = t;
+        }
+        return a;
+    }
+}
+  \end{lstlisting}
+  \item 欧拉函数:返回小于n 且与n 互质的正整数个数
+  \begin{lstlisting}[language = C++]
+__int64 CRsaOperate::Euclid(__int64 e, __int64 t_n) { 
+    unsigned long long Max = 0xffffffffffffffff - t_n;
+    unsigned long long i = 1;
+    while(1){
+        if(((i*t_n)+1)%e == 0){
+            return ((i*t_n)+1)/e;
+        }
+        i++;
+        unsigned long long Tmp = (i+1)*t_n;
+        if(Tmp > Max){
+            return 0;
+        }
+    }
+    return 0;
+}    
+  \end{lstlisting}
+  \item 公私钥对生成\\
+  除了加解密函数外，另外一个重要的内容是RSA 大素数生成问题。在CRSASection 类中RsaGetParam 函数是用来生成RSA 所有必要的参数，其中主要内容都是生成两个大素数。
+  \begin{lstlisting}[language = C++]
+RsaParam RsaGetParam() {
+    RsaParam Rsa = { 0 };
+    unsigned long long t;
+    Rsa.p = CRsaOperate::RandPrime(16);
+    Rsa.q = CRsaOperate::RandPrime(16);
+    Rsa.n = Rsa.p * Rsa.q;
+    Rsa.f = (Rsa.p - 1) * (Rsa.q - 1);
+    do {
+        Rsa.e = rand() % Rsa.f;
+        Rsa.e |= 1;
+    }
+    while(CRsaOperate::Gcd(Rsa.e, Rsa.f) != 1);
+    Rsa.d = CRsaOperate::Euclid(Rsa.e, Rsa.f);
+    Rsa.s = 0;
+    t = Rsa.n >> 1;
+    while(t) {
+        Rsa.s++;
+        t >>= 1;
+    }
+    return Rsa;
+}
+  \end{lstlisting}
+  \item 获取公钥对
+  \begin{lstlisting}[language = C++]
+PublicKey CRsaOperate::GetPublicKey() {
+    PublicKey cTmp;
+    cTmp.nE = this -> m_cParament.e;
+    cTmp.nN = this -> m_cParament.n;
+    return cTmp;
+}
+  \end{lstlisting}
+  \item RSA解密函数
+  \begin{lstlisting}[language = C++]
+unsigned short CRsaOperate::Decry(__int64 nScore) {
+    unsigned long long nRes = PowMod(nScore, m_cParament.d, m_cParament.n);
+    unsigned short *pRes = (unsigned short *)&(nRes);
+    if(pRes[1] != 0 || pRes[3] != 0 || pRes[2] != 0) {
+        return 0;
+    }
+    else {
+        return pRes[0];
+    }
+}
+  \end{lstlisting}
+\end{itemize}
+\subsubsection{通讯部分}
+服务端将公钥发送给希望与其通话的客户端，然后客户端就可以通过公钥加密生成的DES 密钥发送给服务端，服务端收到消息后利用自己的私钥进行解密便成功与客户端得到了相同的会话密钥。
+
+
+
+
+
+\section{概述}
+%——————————————————————————————————————
+\subsection{第一节}
+如图\ref{fig:1}所示
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{NKU.png}
+    \caption{Caption}
+    \label{fig:1}
+\end{figure}
+
+表
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{ccccccccccc}
+  \toprule  
+  N/n$\backslash$Algo& naive-conv& naive-pool& omp-conv& omp-pool\\
+  \midrule
+  64/2& 0.0167& 0.01255& 0.04142& 0.03799\\
+  64/4& 0.03599&0.0394& 0.0458& 0.0421\\
+  \bottomrule
+  \end{tabular}
+  \caption{性能测试结果(4线程)(单位:ms)}
+\end{table}
+
+带单元格表格
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+  \hline
+  \multicolumn{2}{|c|}{ \multirow{2}*{$Cost$} }& \multicolumn{5}{c|}{To}\\
+  \cline{3-7}
+  \multicolumn{2}{|c|}{}&$A$&$B$&$C$&$D$&$E$\\
+  \hline
+  \multirow{3}*{From}&$B$&7&0&1&3&8\\
+  \cline{2-7}
+  &$C$&8&1&0&2&7\\
+  \cline{2-7}
+  &$D$&8&3&2&0&5\\
+  \hline
+  \end{tabular}
+  \caption{结点C距离向量表(无毒性逆转)}
+\end{table}
+
+%——————————————————————————————————————
+\subsection{第二节}
+伪代码
+
+\begin{breakablealgorithm} 
+  \caption{初始化obj文件信息——对应MeshSimplify类中readfile函数,Face类calMatrix函数} 
+  \begin{algorithmic}[1] %每行显示行号  
+      \Require obj文件,顶点、边、面列表
+      \Ensure 是否读取成功
+      \Function {calMatrix}{$Face$}  
+              \State $normal \gets e1×e2$  
+              \State $normal \gets normal/normal.length$
+              \State $temp[] \gets {normal.x, normal.y, normal.z, normal· Face.v1}$
+              \State $Matrix[i][j]=temp[i] * temp[j]$ 
+              \State \Return{$Matrix$}  
+      \EndFunction
+      \State 根据obj的v和f区分点面信息,读取并加入列表
+      \State $scale \gets $记录点坐标中距离原点最远的分量,以便后续OpenGL进行显示
+      \State $ori \gets $记录中心点,便于OpenGL显示在中心位置,避免有的obj偏移原点较多
+      \State 根据三角面片信息,计算一个面的三条边
+      \State 计算每个面的矩阵$\gets calMatrix$
+      \State 将每个面的矩阵加到各点,由点维护\\
+      \Return True
+  \end{algorithmic}  
+\end{breakablealgorithm}
+
+代码
+\begin{lstlisting}[title=逐列访问平凡算法,frame=trbl,language={C++}]
+  void ord()   
+  {
+      double head,tail,freq,head1,tail1,timess=0; // timers
+      init(N);
+      QueryPerformanceFrequency((LARGE_INTEGER *)&freq );
+      QueryPerformanceCounter((LARGE_INTEGER *)&head);
+      for (int i=0; i<NN; i++)
+          for (int j=0; j<NN; j++)
+              col_sum[i] += (b[j][i]*a[j]);
+      QueryPerformanceCounter ((LARGE_INTEGER *)& tail) ;
+      cout << "\nordCol" <<(tail-head)*1000.0 / freq<< "ms" << endl;
+  }
+\end{lstlisting}
+
+
+%——————————————————————————————————————
+\subsection{第三节}
+
+参考文献\cite{adams1995hitchhiker}\cite{shin2016deep}
+    
+多行公式
+\begin{align}
+  a+b = a + b \\
+  \frac{a+b}{a-b}
+\end{align}
+
+行内公式：$\sum^N_{i=1}$
+
+\textbf{超链接}  \href{http://youtube.com/}{YouTube}
+
+带标号枚举
+\begin{enumerate}
+  \item 1
+  \item 2
+\end{enumerate}
+
+不带标号枚举
+\begin{itemize}
+  \item 1
+  \item 2
+\end{itemize}
+
+\xiaosi{切换字体大小}
+
+%----------------------------------------------------------------
+\section{总结}
+
+%----------------------------------------------------------------
+\newpage
+\bibliographystyle{plain}
+\bibliography{references} 
+\end{document}
