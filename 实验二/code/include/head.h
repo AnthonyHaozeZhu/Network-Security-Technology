@@ -59,9 +59,9 @@ void GerenateDesKey(char* x){
 
 void SecretChat(int nSock, char *pRemoteName, char *pKey){
 
-    //cout << pRemoteName << endl;
+    std::cout << pRemoteName << std::endl;
     CDesOperate cDes;
-    //cout << pKey << endl;
+    std::cout << pKey << std::endl;
     int klength = strlen(pKey);
     if(klength != 8){
         printf("%s\n",pKey);

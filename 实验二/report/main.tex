@@ -173,13 +173,12 @@ numbers=left,
 \subsection{代码结构}
 \noindent CDesOperate.h CDesOperate.cpp 封装了DES 加密解密的CDesOperate 类。\\
 CRsaOperate.h CRsaOperate.cpp 封装了RSA 加密解密的CRsaOperate 类。\\
-TCP.h TCP.cpp 服务器和客户端的处理函数。\\
-main.cpp 主程序。\\
+head.h main.cpp 服务器和客户端的处理函数。\\
 \begin{center}
-  \includegraphics*[]{1}
-  \includegraphics*[]{2}
-  \includegraphics*[]{3}
-  \includegraphics*[]{4}
+  \includegraphics*[]{1.jpg}
+  \includegraphics*[]{2.jpg}
+  \includegraphics*[]{3.jpg}
+  \includegraphics*[]{4.jpg}
 \end{center}
 
 \subsection{代码实现}
@@ -333,7 +332,7 @@ __int64 CRsaOperate::RandPrime(char bit) {
 }
   \end{lstlisting}
   \item 求最大公约数\\
-  两数相等,最大公约数就是本身；辗转相除法,gcd(a,b)=gcd(b,a-qb)
+  两数相等,最大公约数就是本身；辗转相除法,gcd(a,b)=gcd(b, a-qb)。求解方式这个方程组的方法是拓展的欧几里得算法。
   \begin{lstlisting}[language = C++]
 __int64 CRsaOperate::Gcd(__int64 &p, __int64 &q) {
     unsigned long long a = p > q ? p : q;
@@ -420,132 +419,254 @@ unsigned short CRsaOperate::Decry(__int64 nScore) {
 \end{itemize}
 \subsubsection{通讯部分}
 服务端将公钥发送给希望与其通话的客户端，然后客户端就可以通过公钥加密生成的DES 密钥发送给服务端，服务端收到消息后利用自己的私钥进行解密便成功与客户端得到了相同的会话密钥。
-
-
-
-
-
-\section{概述}
-%——————————————————————————————————————
-\subsection{第一节}
-如图\ref{fig:1}所示
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.3]{NKU.png}
-    \caption{Caption}
-    \label{fig:1}
-\end{figure}
-
-表
-\begin{table}[!htbp]
-  \centering
-  \begin{tabular}{ccccccccccc}
-  \toprule  
-  N/n$\backslash$Algo& naive-conv& naive-pool& omp-conv& omp-pool\\
-  \midrule
-  64/2& 0.0167& 0.01255& 0.04142& 0.03799\\
-  64/4& 0.03599&0.0394& 0.0458& 0.0421\\
-  \bottomrule
-  \end{tabular}
-  \caption{性能测试结果(4线程)(单位:ms)}
-\end{table}
-
-带单元格表格
-\begin{table}[!htbp]
-  \centering
-  \begin{tabular}{|c|c|c|c|c|c|c|}
-  \hline
-  \multicolumn{2}{|c|}{ \multirow{2}*{$Cost$} }& \multicolumn{5}{c|}{To}\\
-  \cline{3-7}
-  \multicolumn{2}{|c|}{}&$A$&$B$&$C$&$D$&$E$\\
-  \hline
-  \multirow{3}*{From}&$B$&7&0&1&3&8\\
-  \cline{2-7}
-  &$C$&8&1&0&2&7\\
-  \cline{2-7}
-  &$D$&8&3&2&0&5\\
-  \hline
-  \end{tabular}
-  \caption{结点C距离向量表(无毒性逆转)}
-\end{table}
-
-%——————————————————————————————————————
-\subsection{第二节}
-伪代码
-
-\begin{breakablealgorithm} 
-  \caption{初始化obj文件信息——对应MeshSimplify类中readfile函数,Face类calMatrix函数} 
-  \begin{algorithmic}[1] %每行显示行号  
-      \Require obj文件,顶点、边、面列表
-      \Ensure 是否读取成功
-      \Function {calMatrix}{$Face$}  
-              \State $normal \gets e1×e2$  
-              \State $normal \gets normal/normal.length$
-              \State $temp[] \gets {normal.x, normal.y, normal.z, normal· Face.v1}$
-              \State $Matrix[i][j]=temp[i] * temp[j]$ 
-              \State \Return{$Matrix$}  
-      \EndFunction
-      \State 根据obj的v和f区分点面信息,读取并加入列表
-      \State $scale \gets $记录点坐标中距离原点最远的分量,以便后续OpenGL进行显示
-      \State $ori \gets $记录中心点,便于OpenGL显示在中心位置,避免有的obj偏移原点较多
-      \State 根据三角面片信息,计算一个面的三条边
-      \State 计算每个面的矩阵$\gets calMatrix$
-      \State 将每个面的矩阵加到各点,由点维护\\
-      \Return True
-  \end{algorithmic}  
-\end{breakablealgorithm}
-
-代码
-\begin{lstlisting}[title=逐列访问平凡算法,frame=trbl,language={C++}]
-  void ord()   
-  {
-      double head,tail,freq,head1,tail1,timess=0; // timers
-      init(N);
-      QueryPerformanceFrequency((LARGE_INTEGER *)&freq );
-      QueryPerformanceCounter((LARGE_INTEGER *)&head);
-      for (int i=0; i<NN; i++)
-          for (int j=0; j<NN; j++)
-              col_sum[i] += (b[j][i]*a[j]);
-      QueryPerformanceCounter ((LARGE_INTEGER *)& tail) ;
-      cout << "\nordCol" <<(tail-head)*1000.0 / freq<< "ms" << endl;
-  }
-\end{lstlisting}
-
-
-%——————————————————————————————————————
-\subsection{第三节}
-
-参考文献\cite{adams1995hitchhiker}\cite{shin2016deep}
-    
-多行公式
-\begin{align}
-  a+b = a + b \\
-  \frac{a+b}{a-b}
-\end{align}
-
-行内公式：$\sum^N_{i=1}$
-
-\textbf{超链接}  \href{http://youtube.com/}{YouTube}
-
-带标号枚举
-\begin{enumerate}
-  \item 1
-  \item 2
-\end{enumerate}
-
-不带标号枚举
 \begin{itemize}
-  \item 1
-  \item 2
+  \item \textbf{客户端函数}\\ 
+  与服务器建立连接后，客户端接收到服务器发送的RSA 公钥对后，随机生成DES 密钥并用公钥对加密发送给服务器；此后，用DES 密钥进行聊天。
+  \begin{lstlisting}[language = C++]
+else {
+    std::cout << "Please input the server address:" << std::endl;
+    char strIPAddr[16];
+    std::cin >> strIPAddr;
+    int nConnectSocket, nLength;
+    struct sockaddr_in sDestAddr;
+    if((nConnectSocket = socket(AF_INET,SOCK_STREAM, 0)) < 0) {
+        perror("Socket");
+        exit(errno);
+    }
+    int SEVERPORT = 6000;
+
+    sDestAddr.sin_family = AF_INET;
+    sDestAddr.sin_port = htons(SEVERPORT);
+    sDestAddr.sin_addr.s_addr = inet_addr(strIPAddr);
+    if(connect(nConnectSocket, (struct sockaddr *) &sDestAddr, sizeof(sDestAddr)) != 0) {
+        perror("Connect");
+        exit(errno);
+    }
+    else {
+        printf("Connect Success! \n");
+        char *strDesKey = new char [8];
+        GerenateDesKey(strDesKey);
+        printf("Create DES key success\n");
+        PublicKey cRsaPublicKey;
+        if(sizeof(cRsaPublicKey) == TotalRecv(nConnectSocket,(char *)&cRsaPublicKey, sizeof(cRsaPublicKey),0)) {
+            printf("Successful get the RSA public Key\n");
+        }
+        else {
+            perror("Get RSA public key ");
+            exit(0);
+        }
+        unsigned long long nEncryptDesKey[4];
+        unsigned short *pDesKey = (unsigned short *)strDesKey;
+        for(int i = 0; i < 4; i++) {
+            nEncryptDesKey[i] = CRsaOperate::Encry(pDesKey[i],cRsaPublicKey);
+        }
+        if(sizeof(unsigned long long)*4 != send(nConnectSocket, (char *)nEncryptDesKey,sizeof(unsigned long long)*4, 0)) {
+            perror("Send DES key Error");
+            exit(0);
+        }
+        else {
+            printf("Successful send the encrypted DES Key\n");
+        }
+        printf("Begin to chat...\n");
+        SecretChat(nConnectSocket,strIPAddr,strDesKey);
+    }
+    close(nConnectSocket);
+}
+  \end{lstlisting}
+  \item \textbf{服务器函数} \\
+  与客户端建立连接后，生成RSA 公私钥对，并将公钥对发送给客户端，然后接收客户端发来的加过密的DES 密钥，用自己的私钥对解密；此后，用DES 密钥进行通信。
+  \begin{lstlisting}[language = C++]
+  if(temp == 's') {
+      int nListenSocket,nAcceptSocket;
+      struct sockaddr_in sLocalAddr, sRemoteAddr;
+      bzero(&sLocalAddr, sizeof(sLocalAddr));
+      sLocalAddr.sin_family = PF_INET;
+      sLocalAddr.sin_port = htons(6000);
+      sLocalAddr.sin_addr.s_addr = INADDR_ANY;
+      if ((nListenSocket = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
+          perror("socket");
+          exit(1);
+      }
+      if(bind(nListenSocket, (struct sockaddr *) &sLocalAddr, sizeof(struct sockaddr)) == -1) {
+          perror("bind");
+          exit(1);
+      }
+      if(listen(nListenSocket, 5) == -1) {
+          perror("listen");
+          exit(1);
+      }
+      printf("Listening...\n");
+      socklen_t nLength = 0;
+      nAcceptSocket = accept(nListenSocket, (struct sockaddr*)&sRemoteAddr, &nLength);
+      close(nListenSocket);
+      printf("server: got connection from %s, port %d, socket %d\n",inet_ntoa(sRemoteAddr.sin_addr), ntohs(sRemoteAddr.sin_port), nAcceptSocket);
+      
+      //negotiate key
+      PublicKey cRsaPublicKey;
+      CRsaOperate CRsaOperate;
+      //CRsaOperate.show_par();
+      cRsaPublicKey = CRsaOperate.GetPublicKey();
+      if(send(nAcceptSocket, (char *)(&cRsaPublicKey), sizeof(cRsaPublicKey), 0) != sizeof(cRsaPublicKey)){
+          perror("send");
+          exit(0);
+      }else{
+          printf("successful send the RSA public key. \n");
+      }
+      unsigned long long nEncryptDesKey[4];
+      char *strDesKey = new char[8];
+      if(4*sizeof(unsigned long long) != TotalRecv(nAcceptSocket,(char *)nEncryptDesKey, 4*sizeof(unsigned long long),0)) {
+          perror("TotalRecv DES key error");
+          exit(0);
+      }
+      else {
+          printf("successful get the DES key\n");
+          unsigned short * pDesKey = (unsigned short *)strDesKey;
+          for(int i = 0;i < 4; i++) {
+              pDesKey[i] = CRsaOperate.Decry(nEncryptDesKey[i]);
+              //cout << pDesKey[i] << endl;
+          }
+      }
+      
+      printf("Begin to chat...\n");
+      SecretChat(nAcceptSocket,inet_ntoa(sRemoteAddr.sin_addr),strDesKey);
+      close(nAcceptSocket);
+  }
+  \end{lstlisting}
+  \item \textbf{SecretChat函数} \\ 
+  用select 模型重写通信函数。传统的网络通信I/O 是阻塞I/O 或者非阻塞I/O，阻塞I/O 会使得进程必须暂停下来等到I/O 事件的完全，非阻塞I/O 则需要进行轮询，大量消耗CPU 资源。因此出现了一种新的网络I/O 模型——select 模型。select 模型的基本特点是可以一次性监听多个I/O 请求，虽然本质上还是阻塞I/O，但是由于其具备了一次性处理多个I/O 的能力，所以可以大大加大网络I/O 的效率。利用select 模型重写SecretChat 函数，首先初始化文件列表、等待时间、返回值。然后开始一个循环进行监听，每次监听之前先对于select 模型进行询问，查看其中完成的I/O 请求，以便多次处理。然后对于sock 套接字和标准输入的文件描述符进行监听。对于sock 套接字的监听。一旦存在sock 套接字的请求便进行处理。对于标准输入的处理。一旦用户进行输入，便进行处理。
+  \begin{lstlisting}[language = C++]
+void SecretChat(int nSock, char *pRemoteName, char *pKey) {
+
+    std::cout << pRemoteName << std::endl;
+    CDesOperate cDes;
+    std::cout << pKey << std::endl;
+    int klength = strlen(pKey);
+    if(klength != 8){
+        printf("%s\n",pKey);
+        printf("Key length error\n");
+        return;
+    }
+
+    //select model
+    fd_set cHandleSet;
+    struct timeval tv;
+    int nRet;
+    while(1){
+        FD_ZERO(&cHandleSet);
+        FD_SET(nSock, &cHandleSet);
+        FD_SET(0, &cHandleSet);
+        tv.tv_sec = 1;
+        tv.tv_usec = 0;
+        nRet = select(nSock>0? nSock+ 1:1, &cHandleSet, NULL, NULL, &tv);
+        if(nRet < 0){
+            printf("Select error!\n");
+            break;
+        }
+        if(nRet == 0){
+            continue;
+        }
+        if(FD_ISSET(nSock,&cHandleSet)){
+            bzero(&strSocketBuffer, BUFFERSIZE);
+            int nLength = 0;
+            nLength = TotalRecv(nSock, strSocketBuffer,BUFFERSIZE,0);
+            if(nLength !=BUFFERSIZE) break;
+            else{
+                int nLen = BUFFERSIZE;
+                cDes.Decry(strSocketBuffer,BUFFERSIZE,strDecryBuffer,nLen,pKey,8);
+                strDecryBuffer[BUFFERSIZE-1]=0;
+                if(strDecryBuffer[0]!=0&&strDecryBuffer[0]!='\n'){
+                    printf("Receive message form <%s>: %s",pRemoteName,strDecryBuffer);
+                    if(0==memcmp("quit",strDecryBuffer,4)){
+                        printf("Quit!\n");
+                        break;
+                    }
+                }
+            }
+        }
+        if(FD_ISSET(0,&cHandleSet)){
+            bzero(&strStdinBuffer, BUFFERSIZE);
+            while(strStdinBuffer[0]==0){
+                if (fgets(strStdinBuffer, BUFFERSIZE, stdin) == NULL){
+                    continue;
+                }
+            }
+            int nLen = BUFFERSIZE;
+            cDes.Encry(strStdinBuffer,BUFFERSIZE,strEncryBuffer,nLen,pKey,8);
+            if(send(nSock, strEncryBuffer, BUFFERSIZE,0)!=BUFFERSIZE){
+                perror("send");
+            }else{
+                if(0==memcmp("quit",strStdinBuffer,4)){
+                    printf("Quit!\n");
+                    break;
+                }
+            }
+        }
+    }
+}
+  \end{lstlisting}
+  \item \textbf{GerenateDesKey函数} \\
+  随机生成DES 密钥。
+  \begin{lstlisting}[language = C++]
+void GerenateDesKey(char* x){
+    int i;
+    srand(time(NULL));
+    for (i = 0; i < 8; i++)
+    {
+        switch ((rand() % 3))
+        {
+        case 1:
+            x[i] = 'A' + rand() % 26;
+            break;
+        case 2:
+            x[i] = 'a' + rand() % 26;
+            break;
+        default:
+            x[i] = '0' + rand() % 10;
+            break;
+        }
+    }
+    x[i] = '\0';
+}
+  \end{lstlisting}
 \end{itemize}
 
-\xiaosi{切换字体大小}
 
-%----------------------------------------------------------------
-\section{总结}
 
-%----------------------------------------------------------------
-\newpage
-\bibliographystyle{plain}
-\bibliography{references} 
+
+\section{实验结果}
+客户端上线，连接成功
+\begin{center}
+\includegraphics[scale = 0.23]{1.png}
+\end{center}
+客户端生成DES密钥并传输到服务器，服务器解密成功
+\begin{center}
+  \includegraphics[scale = 0.23]{2.png}
+\end{center}
+客户端和服务端之间相互通信
+\begin{center}
+  \includegraphics[scale = 0.23]{3.png}
+\end{center}
+输入Quit后停止通信
+\begin{center}
+  \includegraphics[scale = 0.23]{4.png}
+\end{center}
+
+
+\section{实验遇到的问题及其解决方法}
+首先我们在使用Encry函数时，经历了如下报错
+\begin{center}
+  \includegraphics*[scale = 0.3]{截屏2022-04-07 00.34.42.png}
+  \includegraphics*[scale = 0.5]{截屏2022-04-07 00.35.02.png}
+\end{center}
+可以看出，其问题在于，我们不能直接调用类的函数。为了解决这个问题，我们查阅了资料得知，应当在其前面加上static声明其为静态函数，便可以在类外直接调用。
+
+然后是如何将整型（按ASCII 码值）转换成string 类型的问题。服务器接收到DES 的密文分别是四个短整型（2 个字大小）的值。如果使用to\_string 函数，则是将数字换成对应的字符串数字，如65 到“65”，并没有根据ASCII 码转换成对应的字符“A”。而如果仅仅在转换的短整型前面加上(char*)\&，则只能将短整型的第一个字节转换成字符，而少了一个。最终，我们使用使用sprintf 函数解决了这个转换的问题。
+
+
+\section{实验结论}
+本次实验在第一次实验，基于TCP的DES加密通讯的基础上实现了随机生成DES密钥、随机生成RSA公钥、密钥，并且通过RSA加密方法共享DES密钥。加深了对RSA 非对称加密算法的步骤的理解。本实验只使用了RSA 算法对
+DES 密钥的传输进行加密解密，而不是完全使用RSA 加密解密，是因为RSA 算法执行的运算量比较大，系统消耗的资源会比较大。而只对DES 密钥共享进行RSA 加密，既保证了通信的安全，又节省了资源。此外值得注意的是，由于客户端加密DES 密钥时，只能获取RSA 的公钥对，而RSA类中的成员变量是公私钥对（对于客户端不可见），所以RSA 加密函数中的参数既包括了明文分组，又包括公钥对。
+
+此外，我们较实验一的基础上，进一步掌握了Linux下的通信机制。使用select函数替换了了原来使用fork 进程的方法，减少了进程开销，在实现上也更加简单。
+
 \end{document}
