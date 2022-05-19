@@ -3,8 +3,16 @@
 
 #include "iostream"
 #include <fstream>
+#include <string>
+#include <string.h>
+#include <iostream>
+#include <cmath>
+#include <unordered_map>
 typedef unsigned char BYTE;
 typedef unsigned long DWORD;
+using namespace std;
+
+#define BUFFER_SIZE 8
 
 #define S11 7
 #define S12 12
@@ -58,7 +66,10 @@ public:
     MD5(); 
     MD5(const std::string &str); 
     MD5(std::ifstream &in); 
-    void Update(std::ifstream &in); 
+    // void Update(std::ifstream &in); 
+    void Update(const void* inpput, size_t length);
+    void Update(const std::string &str);
+    void Update(std::ifstream &in);
     const BYTE* GetDigest(); 
     std::string Tostring(); 
     void Reset(); 
