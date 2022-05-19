@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named MD5
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
-.PHONY : main
+MD5: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MD5
+.PHONY : MD5
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-.PHONY : main/fast
+MD5/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MD5.dir/build.make CMakeFiles/MD5.dir/build
+.PHONY : MD5/fast
 
 src/MD5.o: src/MD5.cpp.o
 .PHONY : src/MD5.o
 
 # target to build an object file
 src/MD5.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/MD5.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MD5.dir/build.make CMakeFiles/MD5.dir/src/MD5.cpp.o
 .PHONY : src/MD5.cpp.o
 
 src/MD5.i: src/MD5.cpp.i
@@ -142,7 +142,7 @@ src/MD5.i: src/MD5.cpp.i
 
 # target to preprocess a source file
 src/MD5.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/MD5.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MD5.dir/build.make CMakeFiles/MD5.dir/src/MD5.cpp.i
 .PHONY : src/MD5.cpp.i
 
 src/MD5.s: src/MD5.cpp.s
@@ -150,7 +150,7 @@ src/MD5.s: src/MD5.cpp.s
 
 # target to generate assembly for a file
 src/MD5.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/MD5.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MD5.dir/build.make CMakeFiles/MD5.dir/src/MD5.cpp.s
 .PHONY : src/MD5.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -158,7 +158,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MD5.dir/build.make CMakeFiles/MD5.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -166,7 +166,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MD5.dir/build.make CMakeFiles/MD5.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -174,7 +174,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MD5.dir/build.make CMakeFiles/MD5.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -185,7 +185,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... main"
+	@echo "... MD5"
 	@echo "... src/MD5.o"
 	@echo "... src/MD5.i"
 	@echo "... src/MD5.s"

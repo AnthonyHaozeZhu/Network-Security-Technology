@@ -5,14 +5,14 @@ void print_h(int argc, char *argv[]) {
         std::cout << "参数错误." << std::endl;
         return;
     }
-    std::cout << "MD5：usage:\n" << "\t" << "[-h] --help information " << std::endl
-         << "\t" << "[-t] --test MD5 application" << std::endl
-         << "\t" << "[-c] [file path of the file computed]" << std::endl
-         << "\t" << "\t" <<"--compute MD5 of the given file" << std::endl
-         << "\t" << "[-v] [file path of the file validated]" << std::endl
-         << "\t" << "\t" <<"--validate the integrality of a given file by manual input MD5 value" << std::endl
-         << "\t" << "[-f] [file path of the file validated] [file path of the .md5 file]" << std::endl
-         << "\t" << "\t" <<"--validate the integrality of a given file by read MD5 value from .md5 file" << std::endl;
+    std::cout << "MD5：usage:\n" << "\t" << "[-h] --help information " << std::endl;
+    std::cout << "\t" << "[-t] --test MD5 application" << std::endl;
+    std::cout << "\t" << "[-c] [file path of the file computed]" << std::endl;
+    std::cout << "\t" << "\t" <<"--compute MD5 of the given file" << std::endl;
+    std::cout << "\t" << "[-v] [file path of the file validated]" << std::endl;
+    std::cout << "\t" << "\t" <<"--validate the integrality of a given file by manual input MD5 value" << std::endl;
+    std::cout << "\t" << "[-f] [file path of the file validated] [file path of the .md5 file]" << std::endl;
+    std::cout << "\t" << "\t" <<"--validate the integrality of a given file by read MD5 value from .md5 file" << std::endl;
 }
 
 void print_t(int argc, char *argv[]) {
@@ -20,14 +20,7 @@ void print_t(int argc, char *argv[]) {
         std::cout << "参数错误." << std::endl;
         return;
     }
-    string test[] = {"",
-                    "a", 
-                    "abc", 
-                    "message digest", 
-                    "abcdefghijklmnopqrstuvwxyz", 
-                    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 
-                    "12345678901234567890123456789012345678901234567890123456789012345678901234567890"
-                    };
+    string test[] = {"", "a", "abc", "message digest", "abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", "12345678901234567890123456789012345678901234567890123456789012345678901234567890"};
     MD5 md5;
     for (int i = 0; i < 7; ++i) { 
         md5.Update(test[i]);
@@ -79,7 +72,7 @@ void print_f(int argc, char *argv[]) {
     string md5Path = argv[3];
     ifstream md5Stream(md5Path);
     string oldMD5Str((istreambuf_iterator<char>(md5Stream)), istreambuf_iterator<char>());
-    oldMD5Str=(string)strtok(const_cast<char*>(oldMD5Str.c_str())," ");
+    oldMD5Str = (string)strtok(const_cast<char*>(oldMD5Str.c_str())," ");
     std::cout << "The old MD5 value of file(\"" << filePath << "\") in " << md5Path << " is " << std::endl << oldMD5Str << std::endl;
     ifstream fileStream(filePath);
     MD5 md5;
@@ -95,11 +88,7 @@ void print_f(int argc, char *argv[]) {
 }
 
 int main(int argc,char *argv[]) { 
-    unordered_map<string, void(*)(int, char*[])> mapOp = {{"-t", print_t}, 
-                                                          {"-h", print_h}, 
-                                                          {"-c", print_c}, 
-                                                          {"-v", print_v},
-                                                          {"-f", print_f}};
+    unordered_map<string, void(*)(int, char*[])> mapOp = {{"-t", print_t}, {"-h", print_h}, {"-c", print_c}, {"-v", print_v}, {"-f", print_f}};
     if (argc < 2) { 
         std::cout << "参数错误，argc = " << argc << std::endl;
         return -1;

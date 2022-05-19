@@ -12,6 +12,6 @@ include_directories (include)
 
 # add_executable (main ${SRC_LIST})
 
-add_executable(main ${PROJECT_SOURCE_DIR}/src/main.cpp ${PROJECT_SOURCE_DIR}/src/MD5.cpp)
+add_executable(MD5 ${PROJECT_SOURCE_DIR}/src/main.cpp ${PROJECT_SOURCE_DIR}/src/MD5.cpp)
 
 
