@@ -1,72 +1,19 @@
 #include "MD5.h"
 
 const BYTE MD5::padding[64] = { 0x80 };
-const char MD5::hex[16] = {
-	'0', '1', '2', '3',
-	'4', '5', '6', '7',
-	'8', '9', 'a', 'b',
-	'c', 'd', 'e', 'f'
-};
+const char MD5::hex[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-const BYTE* MD5::GetDigest() {
-	if (!is_finished) {
-		is_finished = true;
-		Stop();
-	}
-	return digest;
-}
-
-void MD5::Update(const BYTE* input,size_t length)
-{
-    DWORD i,index,partLen;
-    //设置停止标识
-    is_finished = false;
-    //计算buffer 已经存放的字节数
-    index = (DWORD)((count[0] >> 3) & 0x3f);
-    //更新计数器count，将新数据流的长度加上计数器原有的值
-    if((count[0] += ((DWORD)length << 3)) < ((DWORD)length << 3)) //判断是否进位
-        count[1]++;
-    count[1] += ((DWORD)length >> 29);
-    //求出buffer 中剩余的长度
-    partLen = 64 - index;
-    //将数据块逐块进行MD5 运算
-    if(length >= partLen){
-        memcpy(&buffer_block[index], input, partLen);
-        Transform(buffer_block);
-        for (i = partLen; i + 63 < length; i += 64)
-            Transform(&input[i]);
-        index = 0;
-    } else {
-        i = 0;
-    }
-    //将不足64 字节的数据复制到buffer_block 中
-    memcpy(&buffer_block[index], &input[i], length-i);
-}
-
-
-void MD5::Update(const void *input, size_t length) {
-	Update((const BYTE*)input, length);
-}
- 
-void MD5::Update(const string &str) {
+MD5::MD5(const std::string &str) {
+	Reset();
 	Update((const BYTE*)str.c_str(), str.length());
 }
 
-void MD5::Update(ifstream &in) {
-	if (!in)
-		return;
-	std::streamsize length;
-	char buffer[BUFFER_SIZE];
-	while (!in.eof()) {
-		in.read(buffer, BUFFER_SIZE);
-		length = in.gcount();
-		if (length > 0)
-			Update(buffer, length);
-	}
-	in.close();
+MD5::MD5(std::ifstream &in) {
+	Reset();
+	Update(in);
 }
 
-void MD5::Transform(const BYTE block[64]){
+void MD5::Transform(const BYTE block[64]) {
     DWORD a = state[0], b = state[1], c = state[2], d = state[3], x[16];
     Decode(block, x, 64);
     /* 第1 轮 */
@@ -147,19 +94,55 @@ void MD5::Transform(const BYTE block[64]){
     state[3] += d;
 }
 
+const BYTE* MD5::GetDigest() {
+	if (!is_finished) {
+		is_finished = true;
+		Stop();
+	}
+	return digest;
+}
+
+void MD5::Update(const BYTE* input,size_t length)
+{
+    DWORD i, index, partLen;
+    is_finished = false;
+    index = (DWORD)((count[0] >> 3) & 0x3f);
+    if((count[0] += ((DWORD)length << 3)) < ((DWORD)length << 3)) {
+        count[1]++;
+	}
+    count[1] += ((DWORD)length >> 29);
+    partLen = 64 - index;
+    if(length >= partLen){
+        memcpy(&buffer_block[index], input, partLen);
+        Transform(buffer_block);
+        for (i = partLen; i + 63 < length; i += 64) {
+            Transform(&input[i]);
+		}
+        index = 0;
+    } 
+	else {
+        i = 0;
+    }
+    memcpy(&buffer_block[index], &input[i], length-i);
+}
+
+void MD5::Update(std::ifstream &in) {
+	if (!in)
+		return;
+	std::streamsize length;
+	char buffer[BUFFER_SIZE];
+	while (!in.eof()) {
+		in.read(buffer, BUFFER_SIZE);
+		length = in.gcount();
+		if (length > 0)
+			Update((const BYTE*)buffer, length);
+	}
+	in.close();
+}
+
 MD5::MD5() {
 	Reset();
 } 
-
-MD5::MD5(const string &str) {
-	Reset();
-	Update(str);
-}
-
-MD5::MD5(ifstream &in) {
-	Reset();
-	Update(in);
-}
 
 void MD5::Reset() {
 	is_finished = false;
@@ -183,15 +166,14 @@ void MD5::Encode(const DWORD *input, BYTE *output, size_t length) {
 }
  
 void MD5::Decode(const BYTE *input, DWORD *output, size_t length) {
- 
 	for(size_t i=0, j=0; j<length; i++, j+=4) {	
 		output[i] = ((DWORD)input[j]) | (((DWORD)input[j+1]) << 8) |
 			(((DWORD)input[j+2]) << 16) | (((DWORD)input[j+3]) << 24);
 	}
 }
  
-string MD5::BytesToHexString(const BYTE *input, size_t length) {
-	string str;
+std::string MD5::BytesToHexString(const BYTE *input, size_t length) {
+	std::string str;
 	str.reserve(length << 1);
 	for(size_t i = 0; i < length; i++) {
 		int t = input[i];
@@ -203,7 +185,7 @@ string MD5::BytesToHexString(const BYTE *input, size_t length) {
 	return str;
 }
 
-string MD5::Tostring() {
+std::string MD5::Tostring() {
 	return BytesToHexString(GetDigest(), 16);
 }
 
@@ -212,26 +194,14 @@ void MD5::Stop() {
 	DWORD oldState[4];
 	DWORD oldCount[2];
 	DWORD index, padLen;
- 
-	/* Save current state and count. */
 	memcpy(oldState, state, 16);
 	memcpy(oldCount, count, 8);
- 
-	/* Save number of bits */
 	Encode(count, bits, 8);
- 
-	/* Pad out to 56 mod 64. */
 	index = (DWORD)((count[0] >> 3) & 0x3f);
 	padLen = (index < 56) ? (56 - index) : (120 - index);
 	Update(padding, padLen);
- 
-	/* Append length (before padding) */
 	Update(bits, 8);
- 
-	/* Store state in digest */
 	Encode(state, digest, 16);
- 
-	/* Restore current state and count. */
 	memcpy(state, oldState, 16);
 	memcpy(count, oldCount, 8);
 }

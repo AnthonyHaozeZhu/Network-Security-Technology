@@ -10,7 +10,6 @@
 #include <unordered_map>
 typedef unsigned char BYTE;
 typedef unsigned long DWORD;
-using namespace std;
 
 #define BUFFER_SIZE 8
 
@@ -54,22 +53,19 @@ private:
     static const char hex[16]; //用于保存 16 进制的字符 
     void Stop(); 
     void Transform(const BYTE block[64]);
-    //对给定长度的字节流进行 MD5 运算 
-    void Update(const BYTE* input,size_t length);
     //将双字流转换为字节流 
     void Encode(const DWORD *input, BYTE *output, size_t length); 
     //将字节流转换为双字流 
     void Decode(const BYTE *input, DWORD *output, size_t length); 
     //将字节流按照十六进制字符串形式输出 
     std::string BytesToHexString(const BYTE *input, size_t length); 
+
 public:
     MD5(); 
     MD5(const std::string &str); 
     MD5(std::ifstream &in); 
-    // void Update(std::ifstream &in); 
-    void Update(const void* inpput, size_t length);
-    void Update(const std::string &str);
     void Update(std::ifstream &in);
+    void Update(const BYTE* input,size_t length);
     const BYTE* GetDigest(); 
     std::string Tostring(); 
     void Reset(); 
