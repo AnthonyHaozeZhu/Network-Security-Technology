@@ -30,10 +30,10 @@ typedef unsigned long DWORD;
 #define S43 15
 #define S44 21
 
-#define F(x, y, z) (((x) & (y)) | ((~x) & (z))) //F 函数
-#define G(x, y, z) (((x) & (z)) | ((y) & (~z))) //G 函数
-#define H(x, y, z) ((x) ^ (y) ^ (z)) //H 函数
-#define I(x, y, z) ((y) ^ ((x) | (~z))) //I 函数
+#define F(x, y, z) (((x) & (y)) | ((~x) & (z))) 
+#define G(x, y, z) (((x) & (z)) | ((y) & (~z))) 
+#define H(x, y, z) ((x) ^ (y) ^ (z)) 
+#define I(x, y, z) ((y) ^ ((x) | (~z))) 
 
 #define ROTATE_LEFT(x, n) (((x) << (n)) | ((x) >> (32-(n))))
 #define FF(a, b, c, d, x, s, ac) {(a) += F ((b), (c), (d)) + (x) + ac;(a) = ROTATE_LEFT ((a), (s));(a) += (b);}
@@ -65,7 +65,7 @@ public:
     MD5(const std::string &str); 
     MD5(std::ifstream &in); 
     void Update(std::ifstream &in);
-    void Update(const BYTE* input,size_t length);
+    void Update(const BYTE* input, size_t length);
     const BYTE* GetDigest(); 
     std::string Tostring(); 
     void Reset(); 

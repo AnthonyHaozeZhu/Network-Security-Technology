@@ -86,8 +86,6 @@ void MD5::Transform(const BYTE block[64]) {
 	II (d, a, b, c, x[11], S42, 0xbd3af235); /* 62 */
 	II (c, d, a, b, x[ 2], S43, 0x2ad7d2bb); /* 63 */
 	II (b, c, d, a, x[ 9], S44, 0xeb86d391); /* 64 */
-
-
     state[0] += a;
     state[1] += b;
     state[2] += c;
@@ -146,9 +144,7 @@ MD5::MD5() {
 
 void MD5::Reset() {
 	is_finished = false;
-	// reset number of bits. 
 	count[0] = count[1] = 0;
-	// Load magic initialization constants.
 	state[0] = 0x67452301;
 	state[1] = 0xefcdab89;
 	state[2] = 0x98badcfe;
@@ -156,7 +152,6 @@ void MD5::Reset() {
 }
 
 void MD5::Encode(const DWORD *input, BYTE *output, size_t length) {
- 
 	for(size_t i=0, j=0; j<length; i++, j+=4) {
 		output[j]= (BYTE)(input[i] & 0xff);
 		output[j+1] = (BYTE)((input[i] >> 8) & 0xff);
