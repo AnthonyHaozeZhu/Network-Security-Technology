@@ -12,82 +12,113 @@ void print_h(int argc, char *argv[]) {
     std::cout << "\t" << "[-u] --UDP scan" << std::endl;
 }
 
+bool Ping(std::string HostIP, unsigned LocalHostIP) {
+    struct iphdr *ip; 
+    struct icmphdr *icmp;
+    unsigned short LocalPort = 8888;
 
+    int PingSock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
+    
+    int on = 1;
+    int ret = setsockopt(PingSock, 0, IP_HDRINCL, &on, sizeof(on));
+    
+    int SendBufSize = sizeof(struct iphdr) + sizeof(struct icmphdr) + sizeof(struct timeval);
+    char *SendBuf = (char*)malloc(SendBufSize);
+    memset(SendBuf, 0, sizeof(SendBuf));
 
-void print_t(int argc, char *argv[]) {
-    if (2 != argc) {
-        std::cout << "参数错误." << std::endl;
-        return;
-    }
-    std::string test[] = {"", "a", "abc", "message digest", "abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", "12345678901234567890123456789012345678901234567890123456789012345678901234567890"};
-    MD5 md5;
-    for (int i = 0; i < 7; ++i) { 
-        md5.Update((const BYTE*)test[i].c_str(), test[i].length());
-        std::cout << "MD5(\"" + test[i] + "\") = " << md5.Tostring()<< std::endl;
-    }
-}
+    ip = (struct iphdr*)SendBuf;
+    ip -> ihl = 5;
+    ip -> version = 4;
+    ip -> tos = 0;
+    ip -> tot_len = htons(SendBufSize);
+    ip -> id = rand();
+    ip -> ttl = 64;
+    ip -> flag_off = 0x40;
+    ip -> protocol = IPPROTO_ICMP;
+    ip -> check = 0;
+    ip -> saddr = LocalHostIP;
+    ip -> daddr = inet_addr(&HostIP[0]);
 
-void print_c(int argc, char *argv[]) {
-    if (3 != argc) {
-        std::cout << "参数错误." << std::endl;
-        return;
-    }
-    std::string filePath = argv[2];
-    std::ifstream fileStream(filePath);
-    MD5 md5;
-    md5.Update(fileStream);
-    std::cout << "The MD5 value of file(\"" << filePath << "\") is " << md5.Tostring() << std::endl;
-}
+    //填充icmp头
+    icmp = (struct icmphdr*)(ip + 1);
+    icmp->type = ICMP_ECHO;
+    icmp->code = 0;
+    icmp->un.echo.id = htons(LocalPort);
+    icmp->un.echo.sequence = 0;
 
-void print_v(int argc,char *argv[]) {
-    if (3 != argc) {
-        std::cout << "参数错误." << std::endl;
-        return;
-    }
-    std::string filePath = argv[2];
-    std::cout << "Please input the MD5 value of file(\"" << filePath << "\")..." << std::endl;
-    std::string inputMD5;
-    std::cin >> inputMD5;
-    std::cout << "The old MD5 value of file(\"" << filePath << "\") you have input is" << std::endl << inputMD5 << std::endl;
-    std::ifstream fileStream(filePath);
-    MD5 md5;
-    md5.Update(fileStream);
-    std::string genMD5 = md5.Tostring();
-    std::cout << "The new MD5 value of file(\"" << filePath << "\") that has computed is" << std::endl << genMD5 << std::endl;
-    if (!genMD5.compare(inputMD5)) {
-        std::cout << "OK! The file is integrated" << std::endl;
-    }
-    else {
-        std::cout << "Match Error! The file has been modified!" << std::endl;
-    }
-}
+    struct timeval *tp = (struct timeval*) &SendBuf[28];
+    gettimeofday(tp, NULL);
+    icmp -> check = in_cksum((u_short *)icmp, sizeof(struct icmphdr) + sizeof(struct timeval));
 
-void print_f(int argc, char *argv[]) {
-    if (4 != argc) {
-        std::cout << "参数错误." << std::endl;
-        return;
+    //设置套接字的发送地址
+    struct sockaddr_in PingHostAddr;
+    PingHostAddr.sin_family = AF_INET;
+    PingHostAddr.sin_addr.s_addr = inet_addr(&HostIP[0]);
+    int Addrlen = sizeof(struct sockaddr_in);
+
+    //发送ICMP请求
+    ret = sendto(PingSock, SendBuf, SendBufSize, 0, (struct sockaddr*) &PingHostAddr, sizeof(PingHostAddr));
+    if(ret < 0) {
+        std::cout << "sendto error" << std::endl;
+        return false;
     }
-    std::string filePath = argv[2];
-    std::string md5Path = argv[3];
-    std::ifstream md5Stream(md5Path);
-    std::string oldMD5Str((std::istreambuf_iterator<char>(md5Stream)), std::istreambuf_iterator<char>());
-    oldMD5Str = (std::string)strtok(const_cast<char*>(oldMD5Str.c_str())," ");
-    std::cout << "The old MD5 value of file(\"" << filePath << "\") in " << md5Path << " is " << std::endl << oldMD5Str << std::endl;
-    std::ifstream fileStream(filePath);
-    MD5 md5;
-    md5.Update(fileStream);
-    std::string genMD5 = md5.Tostring();
-    std::cout << "The new MD5 value of file(\"" << filePath << "\") that has computed is" << std::endl << genMD5 << std::endl;
-    if (!genMD5.compare(oldMD5Str)) {
-        std::cout << "OK! The file is integrated" << std::endl;
+
+    if(fcntl(PingSock, F_SETFL, O_NONBLOCK) == -1) {
+        perror("fcntl error");
+        return false;
     }
-    else {
-        std::cout << "Match Error! The file has been modified!" << std::endl;
-    }
+
+    struct timeval TpStart, TpEnd;
+    bool flags;
+    //循环等待接收ICMP响应
+    gettimeofday(&TpStart, NULL); //获得循环起始时刻
+    flags = false;
+
+    char RecvBuf[1024];
+    struct sockaddr_in FromAddr;
+    struct icmp* Recvicmp;
+    struct ip* Recvip;
+    std::string SrcIP, DstIP, LocalIP;
+    struct in_addr in_LocalhostIP;
+
+    do {
+        //接收ICMP响应
+        ret = recvfrom(PingSock, RecvBuf, 1024, 0, (struct sockaddr*) &FromAddr,
+        (socklen_t*) &Addrlen);
+        if (ret > 0) //如果接收到一个数据包，对其进行解析
+        {
+            Recvip = (struct ip*) RecvBuf;
+            Recvicmp = (struct icmp*) (RecvBuf + (Recvip -> ip_hl * 4));
+            SrcIP = inet_ntoa(Recvip -> ip_src); //获得响应数据包IP头的源地址
+            DstIP = inet_ntoa(Recvip -> ip_dst); //获得响应数据包IP头的目的地址
+            in_LocalhostIP.s_addr = LocalHostIP;
+            LocalIP = inet_ntoa(in_LocalhostIP); //获得本机IP地址
+            //判断该数据包的源地址是否等于被测主机的IP地址，目的地址是否等于
+            //本机IP地址，ICMP头的type字段是否为ICMP_ECHOREPLY
+            if (SrcIP == HostIP && DstIP == LocalIP &&
+            Recvicmp->icmp_type == ICMP_ECHOREPLY) { 
+                /*ping成功，退出循环*/
+                std::cout << "Ping Host " << HostIP << " Successfully !" << std::endl;
+				flags =true;
+				break;
+            }
+        }
+        //获得当前时刻，判断等待相应时间是否超过3秒，若是，则退出等待。
+        gettimeofday(&TpEnd, NULL);
+        float TimeUse = (1000000 * (TpEnd.tv_sec - TpStart.tv_sec) + (TpEnd.tv_usec - TpStart.tv_usec)) / 1000000.0;
+        if(TimeUse < 3) {
+            continue; 
+        }
+        else {
+            flags = false;
+            break;
+        }
+    } while(true);
+    return flags;
 }
 
 int main(int argc,char *argv[]) { 
-    std::unordered_map<std::string, void(*)(int, char*[])> mapOp = {{"-t", print_t}, {"-h", print_h}, {"-c", print_c}, {"-v", print_v}, {"-f", print_f}};
+    std::unordered_map<std::string, void(*)(int, char*[])> mapOp = {{"-h", print_h}};
     if (argc < 2) { 
         std::cout << "参数错误，argc = " << argc << std::endl;
         return -1;
@@ -95,6 +126,10 @@ int main(int argc,char *argv[]) {
     std::string op = argv[1];
     if (mapOp.find(op) != mapOp.end()) {
         mapOp[op](argc, argv);
+        return 0;
     }
+    std::string HostIP;
+    std::cout << "Please input IP address of a Host:";
+	std::cin >> HostIP;
     return 0;
 }
