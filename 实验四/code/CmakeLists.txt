@@ -10,8 +10,9 @@ aux_source_directory (src SRC_LIST)
 
 include_directories (include)
 
-# add_executable (main ${SRC_LIST})
+# add_executable aq(main ${SRC_LIST})
 
 add_executable(Scaner ${PROJECT_SOURCE_DIR}/src/main.cpp ${PROJECT_SOURCE_DIR}/src/TCPConnectScan.cpp ${PROJECT_SOURCE_DIR}/src/TCPFINScan.cpp ${PROJECT_SOURCE_DIR}/src/TCPSYNScan.cpp ${PROJECT_SOURCE_DIR}/src/UDPScan.cpp)
 
 
+target_link_libraries(Scaner pthread)

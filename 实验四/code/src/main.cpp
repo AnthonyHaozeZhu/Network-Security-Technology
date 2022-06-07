@@ -1,15 +1,128 @@
 #include "header.h"
 
+// std::string HostIP;
+// unsigned BeginPort, EndPort;
+pthread_t ThreadID;
+
+std::string HostIP;
+unsigned BeginPort, EndPort, LocalHostIP;
+int ret;
+
+struct TCPConThrParam TCPConParam;
+struct UDPThrParam UDPParam;
+struct TCPSYNThrParam TCPSynParam;
+struct TCPFINThrParam TCPFinParam;
+
 void print_h(int argc, char *argv[]) {
-    if (2 != argc) {
-        std::cout << "参数错误." << std::endl;
-        return;
-    }
-    std::cout << "MD5：usage:\n" << "\t" << "[-h] --help information " << std::endl;
+    std::cout << "Scaner：usage:\n" << "\t" << "[-h] --help information " << std::endl;
     std::cout << "\t" << "[-c] --TCP connect scan" << std::endl;
     std::cout << "\t" << "[-s] --TCP syn scan" << std::endl;
     std::cout << "\t" << "[-f] --TCP fin scan" << std::endl;
     std::cout << "\t" << "[-u] --UDP scan" << std::endl;
+}
+
+void print_f(int argc, char *argv[]) {
+    std::cout << "Begin TCP FIN scan..." << std::endl;
+    //create thread for TCP FIN scan
+    TCPFinParam.HostIP = HostIP;
+    TCPFinParam.BeginPort = BeginPort;
+    TCPFinParam.EndPort = EndPort;
+    TCPFinParam.LocalHostIP = GetLocalHostIP();
+    ret = pthread_create(&ThreadID, NULL, Thread_TCPFinScan, &TCPFinParam);
+    if (ret==-1) 
+    {
+        std::cout << "Can't create the TCP FIN scan thread !" << std::endl;
+        return;
+    }
+
+    ret = pthread_join(ThreadID,NULL);
+    if(ret != 0)
+    {
+        std::cout << "call pthread_join function failed !" << std::endl;
+        return;
+    }
+    else
+    {
+        std::cout <<"TCP FIN Scan finished !" << std::endl;
+        return;
+    }
+}
+
+void print_c(int argc, char *argv[]) {
+    std::cout << "Begin TCP connect scan..." << std::endl;
+    // struct TCPConThrParam TCPConParam;
+    TCPConParam.HostIP = HostIP;
+    TCPConParam.BeginPort = BeginPort;
+    TCPConParam.EndPort = EndPort;
+    int ret = pthread_create(&ThreadID, NULL,Thread_TCPconnectScan, &TCPConParam);
+    if (ret==-1) {
+        std::cout << "Can't create the TCP connect scan thread !" << std::endl;
+        return;
+    }
+    ret = pthread_join(ThreadID, NULL);
+    if(ret != 0) {
+        std::cout << "call pthread_join function failed !" << std::endl;
+        return;
+    }
+    else {
+        std::cout << "TCP Connect Scan finished !" << std::endl;
+    }
+
+}
+
+void print_s(int arg, char *argv[]) {
+    std::cout << "Begin TCP SYN scan..." << std::endl;
+    //create thread for TCP SYN scan
+    // struct TCPSYNThrParam TCPSynParam;
+    TCPSynParam.HostIP = HostIP;
+    TCPSynParam.BeginPort = BeginPort;
+    TCPSynParam.EndPort = EndPort;
+    TCPSynParam.LocalHostIP = GetLocalHostIP();
+    int ret = pthread_create(&ThreadID, NULL, Thread_TCPSynScan, &TCPSynParam);
+    if (ret == -1) 
+    {
+        std::cout << "Can't create the TCP SYN scan thread !" << std::endl;
+        return;
+    }
+
+    ret = pthread_join(ThreadID, NULL);
+    if(ret != 0)
+    {
+        std::cout << "call pthread_join function failed !" << std::endl;
+        return;
+    }
+    else
+    {
+        std::cout << "TCP SYN Scan finished !" << std::endl;
+        return;
+    }
+}
+
+void print_u(int arg, char *argv[]) {
+    std::cout << "Begin UDP scan..." << std::endl;
+    //create thread for UDP scan
+    UDPParam.HostIP = HostIP;
+    UDPParam.BeginPort = BeginPort;
+    UDPParam.EndPort = EndPort;
+    UDPParam.LocalHostIP = LocalHostIP;
+    ret = pthread_create(&ThreadID, NULL, Thread_UDPScan, &UDPParam);
+    if (ret == -1) 
+    {
+        std::cout << "Can't create the UDP scan thread !" << std::endl;
+        return;
+    }
+
+    ret = pthread_join(ThreadID,NULL);
+    if(ret != 0)
+    {
+        std::cout << "call pthread_join function failed !" << std::endl;
+        return;
+    }
+    else
+    {
+        std::cout << "UDP Scan finished !" << std::endl;
+        return;
+    }
 }
 
 bool Ping(std::string HostIP, unsigned LocalHostIP) {
@@ -18,9 +131,19 @@ bool Ping(std::string HostIP, unsigned LocalHostIP) {
     unsigned short LocalPort = 8888;
 
     int PingSock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
+
+    if(PingSock < 0) {
+        std::cout << "socket error" << std::endl;
+        return false;
+    }
     
     int on = 1;
     int ret = setsockopt(PingSock, 0, IP_HDRINCL, &on, sizeof(on));
+
+    if(ret < 0) {
+        std::cout << "setsockopt error" << std::endl;
+        return false;
+    }
     
     int SendBufSize = sizeof(struct iphdr) + sizeof(struct icmphdr) + sizeof(struct timeval);
     char *SendBuf = (char*)malloc(SendBufSize);
@@ -33,7 +156,7 @@ bool Ping(std::string HostIP, unsigned LocalHostIP) {
     ip -> tot_len = htons(SendBufSize);
     ip -> id = rand();
     ip -> ttl = 64;
-    ip -> flag_off = 0x40;
+    ip -> frag_off = 0x40;
     ip -> protocol = IPPROTO_ICMP;
     ip -> check = 0;
     ip -> saddr = LocalHostIP;
@@ -48,7 +171,7 @@ bool Ping(std::string HostIP, unsigned LocalHostIP) {
 
     struct timeval *tp = (struct timeval*) &SendBuf[28];
     gettimeofday(tp, NULL);
-    icmp -> check = in_cksum((u_short *)icmp, sizeof(struct icmphdr) + sizeof(struct timeval));
+    icmp -> checksum = in_cksum((u_short *)icmp, sizeof(struct icmphdr) + sizeof(struct timeval));
 
     //设置套接字的发送地址
     struct sockaddr_in PingHostAddr;
@@ -118,18 +241,54 @@ bool Ping(std::string HostIP, unsigned LocalHostIP) {
 }
 
 int main(int argc,char *argv[]) { 
-    std::unordered_map<std::string, void(*)(int, char*[])> mapOp = {{"-h", print_h}};
-    if (argc < 2) { 
+    std::unordered_map<std::string, void(*)(int, char*[])> mapOp = {{"-h", print_h}, {"-c", print_c}, {"-s", print_s}, {"-u", print_u}, {"-f", print_f}};
+    if (argc != 2) { 
         std::cout << "参数错误，argc = " << argc << std::endl;
         return -1;
     }
     std::string op = argv[1];
+    if(op != "-h") {
+        std::cout << "Please input IP address of a Host:";
+        std::cin >> HostIP;
+
+        if(inet_addr(&(HostIP[0])) == INADDR_NONE)
+        {
+            std::cout << "IP address wrong!" << std::endl;
+            return -1;
+        }
+
+        std::cout << "Please input the range of port..." << std::endl;
+	    std::cout << "Begin Port:";
+	    std::cin >> BeginPort;
+	    std::cout << "End Port:";
+	    std::cin >> EndPort;
+
+        if(BeginPort > EndPort) {
+            std::cout << "The range of port is wrong !" << std::endl;
+            return -1;
+        }
+        else
+        {
+            if(BeginPort < 1 || BeginPort > 65535 || EndPort < 1 || EndPort > 65535) {
+                std::cout << "The range of port is wrong !" << std::endl;
+                return -1;
+            }
+            else {
+                std::cout << "Scan Host " << HostIP << " port " << BeginPort << "~" << EndPort << " ..." << std::endl;
+            }
+        }
+
+        if(!Ping(HostIP, GetLocalHostIP())) {
+            std::cout << "Ping Host " << HostIP << " Failed !" << std::endl;
+            return -1;
+        }
+
+    
+    }
+    
     if (mapOp.find(op) != mapOp.end()) {
         mapOp[op](argc, argv);
         return 0;
     }
-    std::string HostIP;
-    std::cout << "Please input IP address of a Host:";
-	std::cin >> HostIP;
     return 0;
 }
