@@ -1450,8 +1450,67 @@ void print_u(int arg, char *argv[]) {
     \includegraphics[scale = 0.25]{img/11.png}
 \end{itemize}
 
-\section{实验结论}
+\section{实验遇到的问题及解决方法}
+\subsection{内联函数问题}
+我们在头文件里定义校验和计算函数时，出现了以下报错
+\begin{center}
+    \includegraphics[scale = 0.55]{img/报错1}
+\end{center}
+最开始以为是环境变量问题，然后换了几台机子都有这个问题，后面上网查找资料知道了，在我们用makefile中将许多文件编译成一个可执行文件的时候，如果所有文件都会引用一个头文件中的函数的时候，这时候将这个函数声明为static inline内联函数，否则就会报出这种编译错误。
+\subsection{数据结构定义问题}
+最初，我们是在macos系统上进行实验的，但是无论我们引用什么包，都会出现以下报错
+\begin{center}
+    \includegraphics[scale= 0.3]{img/2}
+\end{center}
+然后我们意识到，可能是没有这个包，然后我们自己定义了这个数据结构
+\begin{lstlisting}[language = C++]
+struct iphdr {
+    unsigned char ihl;
+	unsigned char version;
+	unsigned char tos;
+	unsigned short tot_len;
+	unsigned short id;
+	unsigned short flag_off;
+	unsigned char ttl;
+	unsigned char protocol;
+	unsigned short check;
+	unsigned int saddr;
+	unsigned int daddr;
+};
 
+struct icmphdr {
+	unsigned char type;
+	unsigned char code;
+	unsigned short check;
+	unsigned short identifier;
+	unsigned short seq;
+	unsigned char data[32];
+    union {
+        struct {
+            unsigned short id;
+            unsigned short sequence;
+        } echo;
+
+        struct {
+            unsigned short unused;
+            unsigned short mtu;
+        } frag;
+    } un;
+};
+\end{lstlisting}
+然后后来我们换到Linux系统中进行实验，这个数据机构又出现了报错，貌似是因为Linux内核中集成了这个数据结构，所以我们的定义相当于重复了，注释掉便解决了问题。
+\subsection{数据格式问题}
+最开始，我们的在进行TCP的FIN和SYN扫描的时候，无法进行扫描。然后我们进行打印，发现目的主机地址和源主机地址根本不匹配，打印情况如下
+\begin{center}
+    \includegraphics*[scale = 0.5]{img/5}
+    \includegraphics*[scale = 0.3]{img/6}
+\end{center}
+最开始我们以为是主函数的代码有问题，然后一直在更改主函数的代码。找了好几天之后，意识到可能是数据结构的问题，然后查看我们的IP和TCP数据头数据结构，发现我错误的将uint32\_t类型的数据定义成了int，实际上是转换成了uint16\_t类型的数据，应该是unsigned int，这样就会导致我们的数据包的头部长度不正确，导致解析出来的东西是错误的。总的来说就是因为系统的问题，有些32位的数据被定义为64位了，有些16位的数据被定义为32位由于疏忽。当我们更正了这个问题后，一切恢复正常。
+
+\subsection{权限问题}
+最开始我们程序在创建套接字时创建失败，导致程序直接退出，后来意识到，是程序权限不够，于是在运行时加入sudo指令，问题解决。
+\section{实验结论}
+本次实验中，虽然提供了大量的框架，但是因为对Linux下的socket编程不是那么熟悉，所以出现了各种各样的问题，修正花费了一定的时间。但总结来说，我学习到了更多网络通信的知识，提升了我的编程能力和工程能力。同时感谢张老师和助教一个学期的付出和指导帮助，通过这门课我开启了一个全新的知识领域，将来可以涉猎更广泛的知识方向，受益匪浅。
 
 
 \end{document}
