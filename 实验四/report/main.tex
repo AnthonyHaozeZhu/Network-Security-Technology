@@ -10,6 +10,7 @@
 \usepackage{enumerate}
 \usepackage{booktabs} %表格
 \usepackage{multirow}
+\usepackage{graphicx}
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}  %表格强制换行
 %-------------------------字体设置--------------
 \usepackage{times} 
@@ -1252,73 +1253,6 @@ void* Thread_UDPScan(void* param)
 }
 \end{lstlisting}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \subsubsection{端口扫描器程序 Scaner}
 首先程序判断是否需要输出帮助信息，若是，则输出端口扫描器程序的帮助信息，
 然后退出；否则，执行下面的步骤。
@@ -1502,40 +1436,19 @@ void print_u(int arg, char *argv[]) {
     }
 }
 \end{lstlisting}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\subsection{实验结果}
+\begin{itemize}
+    \item 打印帮助函数 \\
+    \includegraphics[scale = 0.25]{img/13.png}
+    \item TCP Connect扫描\\
+    \includegraphics[scale = 0.45]{img/14.png}
+    \item UDP扫描\\
+    \includegraphics[scale = 0.25]{img/15.png}
+    \item TCP FIN扫描\\ 
+    \includegraphics[scale = 0.25]{img/12.png}
+    \item TCP SYN扫描\\ 
+    \includegraphics[scale = 0.25]{img/11.png}
+\end{itemize}
 
 \section{实验结论}
 
