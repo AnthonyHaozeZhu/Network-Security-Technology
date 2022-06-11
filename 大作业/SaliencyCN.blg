@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2020)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: SaliencyCN.aux
+The style file: ieee.bst
+Database file #1: Saliency.bib
+You've used 22 entries,
+            2120 wiz_defined-function locations,
+            643 strings with 7255 characters,
+and the built_in function-call counts, 8514 in all, are:
+= -- 841
+> -- 400
+< -- 6
++ -- 158
+- -- 134
+* -- 621
+:= -- 1364
+add.period$ -- 67
+call.type$ -- 22
+change.case$ -- 132
+chr.to.int$ -- 0
+cite$ -- 22
+duplicate$ -- 317
+empty$ -- 674
+format.name$ -- 134
+if$ -- 1798
+int.to.chr$ -- 0
+int.to.str$ -- 22
+missing$ -- 23
+newline$ -- 113
+num.names$ -- 44
+pop$ -- 136
+preamble$ -- 1
+purify$ -- 111
+quote$ -- 0
+skip$ -- 232
+stack$ -- 0
+substring$ -- 619
+swap$ -- 80
+text.length$ -- 6
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 86
+warning$ -- 0
+while$ -- 85
+width$ -- 24
+write$ -- 242

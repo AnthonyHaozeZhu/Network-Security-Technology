@@ -1,0 +1,10 @@
+\contentsline {section}{\numberline { 一、}实验目的}{1}{section.1}%
+\contentsline {section}{\numberline { 二、}实验目的}{1}{section.2}%
+\contentsline {section}{\numberline { 三、}实验步骤及实验结果}{1}{section.3}%
+\contentsline {subsection}{\numberline {（一）}实验步骤}{1}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {1.}实验环境}{1}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {2.}核心代码实现}{1}{subsubsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.}控制台函数实现}{8}{subsubsection.3.1.3}%
+\contentsline {subsection}{\numberline {（二）}实验结果}{11}{subsection.3.2}%
+\contentsline {section}{\numberline { 四、}实验遇到的问题及解决方法}{11}{section.4}%
+\contentsline {section}{\numberline { 五、}实验结论}{12}{section.5}%

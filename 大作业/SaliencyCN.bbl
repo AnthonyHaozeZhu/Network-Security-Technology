@@ -1,0 +1,120 @@
+\begin{thebibliography}{10}\itemsep=-1pt
+
+\bibitem{08cvs/achanta_salient}
+R.~Achanta, F.~Estrada, P.~Wils, and S.~S{\"u}sstrunk.
+\newblock {Salient region detection and segmentation}.
+\newblock In {\em ICVS}, pages 66--75. Springer, 2008.
+
+\bibitem{09cvpr/Achanta_FTSaliency}
+R.~Achanta, S.~Hemami, F.~Estrada, and S.~S{\"u}sstrunk.
+\newblock Frequency-tuned salient region detection.
+\newblock In {\em CVPR}, pages 1597--1604, 2009.
+
+\bibitem{09_image_resize}
+R.~Achanta and S.~Susstrunk.
+\newblock Saliency {D}etection for {C}ontent-aware {I}mage {R}esizing.
+\newblock In {\em ICIP}, 2009.
+
+\bibitem{tog09/ChenCT_Sketch2Photo}
+T.~Chen, M.-M. Cheng, P.~Tan, A.~Shamir, and S.-M. Hu.
+\newblock Sketch2photo: Internet image montage.
+\newblock {\em ACM Trans. Graph.}, 28(5):124:1--10, 2009.
+
+\bibitem{journal/tog/ChengZMHH10}
+M.-M. Cheng, F.-L. Zhang, N.~J. Mitra, X.~Huang, and S.-M. Hu.
+\newblock Repfinder: Finding approximately repeated scene elements for image
+  editing.
+\newblock {\em ACM Trans. Graph.}, 29(4):83:1--8, 2010.
+
+\bibitem{02tog/decarlo_stylization}
+D.~DeCarlo and A.~Santella.
+\newblock {Stylization and abstraction of photographs}.
+\newblock {\em ACM Trans. Graph.}, 21(3):769--776, 2002.
+
+\bibitem{03neuroscience/luminanceContrast}
+W.~Eihhauser and P.~Konig.
+\newblock Does luminance-constrast contribute to a saliency map for overt
+  visual attention?
+\newblock {\em European Journal of Neuroscience}, 17:1089--1097, 2003.
+
+\bibitem{04ijcv/felzenszwalb_efficient}
+P.~Felzenszwalb and D.~Huttenlocher.
+\newblock {Efficient graph-based image segmentation}.
+\newblock {\em IJCV}, 59(2):167--181, 2004.
+
+\bibitem{10cvpr/goferman_context}
+S.~Goferman, L.~Zelnik-Manor, and A.~Tal.
+\newblock {Context-aware saliency detection}.
+\newblock In {\em CVPR}, 2010.
+
+\bibitem{06TCSVT/han_unsupervised}
+J.~Han, K.~Ngan, M.~Li, and H.~Zhang.
+\newblock {Unsupervised extraction of visual attention objects in color
+  images}.
+\newblock {\em IEEE TCSV}, 16(1):141--145, 2006.
+
+\bibitem{conf/nips/HarelKP06}
+J.~Harel, C.~Koch, and P.~Perona.
+\newblock Graph-based visual saliency.
+\newblock In {\em NIPS}, pages 545--552, 2006.
+
+\bibitem{07cvpr/hou_SpectralResidual}
+X.~Hou and L.~Zhang.
+\newblock Saliency detection: A spectral residual approach.
+\newblock In {\em CVPR}, pages 1--8, 2007.
+
+\bibitem{10pg/Huang_Zhang}
+H.~Huang, L.~Zhang, and T.-N. Fu.
+\newblock Video painting via motion layer manipulation.
+\newblock {\em Comput. Graph. Forum}, 29(7):2055--2064, 2010.
+
+\bibitem{98pami/Itti}
+L.~Itti, C.~Koch, and E.~Niebur.
+\newblock A model of saliency-based visual attention for rapid scene analysis.
+\newblock {\em IEEE TPAMI}, 20(11):1254--1259, 1998.
+
+\bibitem{06josa/KoN_InterestSegmentation}
+B.~Ko and J.~Nam.
+\newblock Object-of-interest image segmentation based on human attention and
+  semantic region clustering.
+\newblock {\em J Opt Soc Am}, 23(10):2462, 2006.
+
+\bibitem{85HN/KochVisualAttention}
+C.~Koch and S.~Ullman.
+\newblock Shifts in selective visual attention: towards the underlying neural
+  circuitry.
+\newblock {\em Human Neurbiology}, 4:219--227, 1985.
+
+\bibitem{10pami/Liu_Learning}
+T.~Liu, Z.~Yuan, J.~Sun, J.~Wang, N.~Zheng, T.~X., and S.~H.Y.
+\newblock Learning to detect a salient object.
+\newblock {\em IEEE TPAMI}, 33(2):353 --367, 2011.
+
+\bibitem{03ACMMM/Ma_Contrast-based}
+Y.-F. Ma and H.-J. Zhang.
+\newblock Contrast-based image attention analysis by using fuzzy growing.
+\newblock In {\em {ACM} Multimedia}, pages 374--381, 2003.
+
+\bibitem{04tog/rother_grabcut}
+C.~Rother, V.~Kolmogorov, and A.~Blake.
+\newblock {``Grabcut"-- Interactive foreground extraction using iterated graph
+  cuts}.
+\newblock {\em ACM Trans. Graph.}, 23(3):309--314, 2004.
+
+\bibitem{99/zeki_innerVision}
+S.~Zeki.
+\newblock {\em {Inner vision: An exploration of art and the brain}}.
+\newblock Oxford University Press, 1999.
+
+\bibitem{06acmmm/ZhaiS_spatiotemporal}
+Y.~Zhai and M.~Shah.
+\newblock Visual attention detection in video sequences using spatiotemporal
+  cues.
+\newblock In {\em ACM Multimedia}, pages 815--824, 2006.
+
+\bibitem{09cgf/ZhangC}
+G.-X. Zhang, M.-M. Cheng, S.-M. Hu, and R.~R. Martin.
+\newblock A shape-preserving approach to image resizing.
+\newblock {\em Comput. Graph. Forum}, 28(7):1897--1906, 2009.
+
+\end{thebibliography}

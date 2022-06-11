@@ -1,0 +1,21 @@
+\contentsline {section}{\numberline { 一、}实验介绍}{1}{section.1}%
+\contentsline {subsection}{\numberline {（一）}实验目的}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {（二）}实验流程}{1}{subsection.1.2}%
+\contentsline {section}{\numberline { 二、}实验步骤}{1}{section.2}%
+\contentsline {subsection}{\numberline {（一）}实验环境}{1}{subsection.2.1}%
+\contentsline {subsection}{\numberline {（二）}核心代码实现}{1}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {1.}代码框架}{1}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.}IP头、TCP头和TCP伪头以及一些工具函数}{2}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {3.}ICMP 探测指定主机}{4}{subsubsection.2.2.3}%
+\contentsline {subsubsection}{\numberline {4.}TCP connect 扫描}{6}{subsubsection.2.2.4}%
+\contentsline {subsubsection}{\numberline {5.}TCP SYN 扫描}{8}{subsubsection.2.2.5}%
+\contentsline {subsubsection}{\numberline {6.}TCP FIN 扫描}{13}{subsubsection.2.2.6}%
+\contentsline {subsubsection}{\numberline {7.}UDP 扫描}{18}{subsubsection.2.2.7}%
+\contentsline {subsubsection}{\numberline {8.}端口扫描器程序 Scaner}{22}{subsubsection.2.2.8}%
+\contentsline {subsection}{\numberline {（三）}实验结果}{25}{subsection.2.3}%
+\contentsline {section}{\numberline { 三、}实验遇到的问题及解决方法}{26}{section.3}%
+\contentsline {subsection}{\numberline {（一）}内联函数问题}{26}{subsection.3.1}%
+\contentsline {subsection}{\numberline {（二）}数据结构定义问题}{27}{subsection.3.2}%
+\contentsline {subsection}{\numberline {（三）}数据格式问题}{28}{subsection.3.3}%
+\contentsline {subsection}{\numberline {（四）}权限问题}{28}{subsection.3.4}%
+\contentsline {section}{\numberline { 四、}实验结论}{28}{section.4}%
